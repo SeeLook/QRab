@@ -24,7 +24,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
 #include <QtQml/QQmlApplicationEngine>
-#include <QtQuickControls2/QQuickStyle>
+// #include <QtQuickControls2/QQuickStyle>
 
 
 int main(int argc, char *argv[])
@@ -68,10 +68,11 @@ int main(int argc, char *argv[])
   qmlRegisterType<TgrabQR>("TgrabQR", 1, 0, "TgrabQR");
 
 //   QQuickStyle::setStyle(QStringLiteral("Material"));
-  a.setWindowIcon(QIcon(QStringLiteral("qrc:/icons/qrab.png")));
 
   QQmlApplicationEngine engine;
   engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
+
+  a.setWindowIcon(QIcon(QStringLiteral("qrc:/icons/qrab.png")));
 
   return a.exec();
 }
