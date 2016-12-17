@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="/">
+    <!-- QML files -->
+    <file alias="Main.qml">src/qml/Main.qml</file>
+    <file alias="AboutDialog.qml">src/qml/AboutDialog.qml</file>
+    <file alias="SettingsDialog.qml">src/qml/SettingsDialog.qml</file>
+
+    <!-- Icons -->
+    <file>icons/qrab.png</file>
+
+    <file>qtquickcontrols2.conf</file>
+  </qresource>
+</RCC>
