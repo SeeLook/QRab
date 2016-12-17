@@ -13,6 +13,7 @@ find_package(Qt5QuickControls2 REQUIRED)
 
 set(qrab_SRC
   src/main.cpp
+  src/tgrabqr.cpp
 )
 
 qt5_add_resources(qrab_SRC qrab.qrc)

@@ -23,6 +23,8 @@ import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
 import QtQuick.Controls.Material 2.0
 
+import TgrabQR 1.0
+
 
 
 ApplicationWindow {
@@ -33,6 +35,10 @@ ApplicationWindow {
   width: Screen.desktopAvailableWidth / 3; height: Screen.desktopAvailableHeight / 3
 
   property string titleText: "QRab"
+
+  TgrabQR {
+    id: "qr"
+  }
 
   AboutDialog {
     id: "ad"
@@ -83,13 +89,14 @@ ApplicationWindow {
       Button {
         id: "qrabButt"
         text: "QRab"
-        MouseArea {
-          anchors.fill: parent
-          hoverEnabled: true
-          onEntered: { statusLabel.text = qsTr("Grab") }
+//         MouseArea {
+//           anchors.fill: parent
+//           hoverEnabled: true
+//           onEntered: { statusLabel.text = qsTr("Grab") }
+//         }
+        onClicked: {
+          qrText.text = qr.grab()
         }
-//         iconSource: "qrc:/qrab.png"
-  //           onClicked: model.revert()
       }
     }
   }
