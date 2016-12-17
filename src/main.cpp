@@ -17,6 +17,10 @@
  ***************************************************************************/
 
 #include "tgrabqr.h"
+#include <QtCore/QTranslator>
+#include <QtCore/QLibraryInfo>
+#include <QtCore/QDir>
+#include <QtCore/QDebug>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
 #include <QtQml/QQmlApplicationEngine>
@@ -27,6 +31,39 @@ int main(int argc, char *argv[])
 {
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication a(argc, argv);
+
+// Loading translations
+  QTranslator qtTranslator;
+  QTranslator qrabTranslator;
+
+#if defined (Q_OS_MAC)
+  QLocale loc(QLocale::system().uiLanguages().first());
+#else
+  QLocale loc(qgetenv("LANG"));
+#endif
+  QLocale::setDefault(loc);
+
+  QString path;
+    QDir d = QDir(qApp->applicationDirPath());
+#if defined (Q_OS_WIN)
+    path = d.path() + QLatin1String("/");
+  #elif defined (Q_OS_LINUX)
+    d.cdUp();
+    path = d.path() + QLatin1String("/share/QRab/");
+  #elif defined (Q_OS_MAC)
+      d.cdUp();
+      path = d.path() + QLatin1String("/Resources/");
+#endif
+
+  QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+#if !defined (Q_OS_LINUX)
+  translationsPath = path + QLatin1String("/lang");
+#endif
+  if (qtTranslator.load(loc, QStringLiteral("qt_"), QString(), translationsPath))
+    a.installTranslator(&qtTranslator);
+  if (qrabTranslator.load(loc, QStringLiteral("qrab_"), QString(), path + QLatin1String("/lang")))
+    a.installTranslator(&qrabTranslator);
+
 
   qmlRegisterType<TgrabQR>("TgrabQR", 1, 0, "TgrabQR");
 
