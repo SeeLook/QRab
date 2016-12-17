@@ -20,40 +20,66 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Window 2.0
 import QtQuick.Controls.Material 2.0
+import QtQuick.Dialogs 1.2
 
 
-ApplicationWindow {
-  id: qrabWindow
-  visible: true
-  title: "QRab"
 
-  flags: Qt.WindowStaysOnTopHint
+Page {
+  id: aboutPage
 
-  width: Screen.desktopAvailableWidth / 3; height: Screen.desktopAvailableHeight / 3
+  signal exit()
 
-  property string titleText: "QRab"
+//   function fakeTR(context, string) {
+//     var t = Qt.qsTranslate(context, sourceText);
+//     console.log(context, string);
+//     console.log(t);
+//     return Qt.qsTranslate(context, sourceText);
+//   }
 
-  SwipeView {
-    id: swipeView
+  ColumnLayout {
     anchors.fill: parent
-    currentIndex: 1
 
-    SettingsPage {
-      id: settingsPage
-      onExit: swipeView.currentIndex = 1
+    RowLayout {
+      anchors.horizontalCenter: parent.horizontalCenter
+      Image {
+        source: "qrc:/icons/qrab.png"
+        sourceSize.width: font.pixelSize * 5
+      }
+      Text {
+        text: "  QRab 0.1"
+        font.bold: true
+        Component.onCompleted: font.pixelSize = font.pixelSize * 2
+      }
     }
 
-    GrabPage {
-      id: grabPage
-      onSettingsOn: swipeView.currentIndex = 0
-      onAboutOn: swipeView.currentIndex = 2
+    Text {
+      text: qsTr("Grabs QR code contexts from your screen")
+      anchors.horizontalCenter: parent.horizontalCenter
     }
-
-    AboutPage {
-      id: aboutPage
-      onExit: swipeView.currentIndex = 1
+    Text {
+      text: qsTr("Author:") 
+      anchors.horizontalCenter: parent.horizontalCenter
+    }
+    Text {
+      text: "Tomasz Bojczuk"
+      anchors.horizontalCenter: parent.horizontalCenter
+    }
+    Text {
+      text: qsTr("On the terms of GPLv3 license.") 
+      anchors.horizontalCenter: parent.horizontalCenter
+    }
+    Item { // a spacer
+      Layout.fillHeight: true
+    }
+    RowLayout {
+      Item { Layout.fillWidth: true }
+      Button {
+        text: qsTranslate("QPlatformTheme", "OK")
+//         text: fakeTR("QPlatformTheme", "OK")
+        onClicked: aboutPage.exit()
+      }
     }
   }
 }
+
