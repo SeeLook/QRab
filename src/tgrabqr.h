@@ -16,26 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tgrabqr.h"
-#include <QtGui/QGuiApplication>
-#include <QtGui/QIcon>
-#include <QtQml/QQmlApplicationEngine>
-#include <QtQuickControls2/QQuickStyle>
+
+#ifndef TGRABQR_H
+#define TGRABQR_H
+
+#include <QtCore/QObject>
 
 
-int main(int argc, char *argv[])
+class QPixmap;
+
+class TgrabQR : public QObject
 {
-  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QGuiApplication a(argc, argv);
 
-  qmlRegisterType<TgrabQR>("TgrabQR", 1, 0, "TgrabQR");
+  Q_OBJECT
 
-//   QQuickStyle::setStyle(QStringLiteral("Material"));
-  a.setWindowIcon(QIcon(QStringLiteral("qrc:/icons/qrab.png")));
+  Q_PROPERTY(QString QRtext READ grab)
 
-  QQmlApplicationEngine engine;
-  engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
+public:
+  explicit TgrabQR(QObject* parent = nullptr);
 
-  return a.exec();
-}
+  Q_INVOKABLE QString grab();
 
+private:
+  QString callZBAR(const QPixmap& pix);
+
+};
+
+#endif // TGRABQR_H
