@@ -20,42 +20,61 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
+import QtQuick.Window 2.0
 import QtQuick.Controls.Material 2.0
-import QtQuick.Dialogs 1.2
 
+import TgrabQR 1.0
 
-Dialog {
-  title: qsTr("About QRab")
+Page {
+  id: grabPage
 
-//   Material.theme: Material.Dark
-//   Material.accent: Material.Purple
+  signal settingsOn()
+  signal aboutOn()
+
+  TgrabQR {
+    id: qr
+  }
 
   ColumnLayout {
     anchors.fill: parent
-
     RowLayout {
-      anchors.horizontalCenter: parent.horizontalCenter
-      Image {
-        source: "qrc:/icons/qrab.png"
-        sourceSize.width: font.pixelSize * 5
+      Button {
+        id: "settingsButt"
+        text: qsTr("Settings")
+        onClicked: grabPage.settingsOn()
       }
-      Text {
-        text: "  QRab 0.1"
-//         font.pixelSize: font.pixelSize * 2
-        font.bold: true
-//         Component.onComplete: font.pixelSize: font.pixelSize * 2
-      }
-    }
 
-    Text { text: qsTr("Grabs QR code contexts from your screen") }
-    Text {
-      text: qsTr("Author:") 
-      anchors.horizontalCenter: parent.horizontalCenter
+      Item { Layout.fillWidth: true }
+
+      Button {
+        id: "aboutButt"
+        text: qsTr("About")
+        onClicked: grabPage.aboutOn()
+      }
     }
-    Text {
-      text: "Tomasz Bojczuk"
-      anchors.horizontalCenter: parent.horizontalCenter
+    RowLayout {
+      TextArea {
+        id: "qrText"
+        placeholderText: qsTr("Put any Qr code on a screen")
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+        wrapMode: TextArea.Wrap
+      }
+    }
+    RowLayout {
+      Label {
+        id: "statusLabel"
+        text: "Status"
+        Layout.fillWidth: true
+        horizontalAlignment: Text.AlignHCenter
+      }
+      Button {
+        id: "qrabButt"
+        text: "QRab"
+        onClicked: {
+          qrText.text = qr.grab()
+        }
+      }
     }
   }
-}
-
+} 

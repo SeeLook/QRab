@@ -24,14 +24,46 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Dialogs 1.2
 
 
-Dialog {
-  title: qsTr("Settings")
+Page {
+  id: settingsPage
+
+  signal exit()
 
   ColumnLayout {
     anchors.fill: parent
 
-    Text { text: "Not implemented yet"}
+    CheckBox {
+      checked: true
+      text: qsTr("Copy QR text to clipboard")
+      anchors.horizontalCenter: parent.horizontalCenter
+    }
+
+    CheckBox {
+      checked: true
+      text: qsTr("Hide window during scanning")
+      anchors.horizontalCenter: parent.horizontalCenter
+    }
+
+    CheckBox {
+      checked: true
+      text: qsTr("Keep QRab window on top")
+      anchors.horizontalCenter: parent.horizontalCenter
+    }
+
+    Item { Layout.fillHeight: true }
+
+    RowLayout {
+      Item { Layout.fillWidth: true }
+      Button {
+        text: qsTranslate("QPlatformTheme", "Cancel")
+        onClicked: settingsPage.exit()
+      }
+      spacing: font.pixelSize
+      Button {
+        text: qsTranslate("QPlatformTheme", "OK")
+        onClicked: settingsPage.exit()
+      }
+    }
   }
 
-  standardButtons: StandardButton.Ok | StandardButton.Cancel
 }
