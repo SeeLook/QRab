@@ -27,20 +27,17 @@ import QtQuick.Dialogs 1.2
 Page {
   id: settingsPage
 
+  property real defaultSpacing: 10
+
   signal exit()
 
   ColumnLayout {
     anchors.fill: parent
+    anchors.margins: defaultSpacing
 
     CheckBox {
       checked: true
       text: qsTr("Copy QR text to clipboard")
-      anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    CheckBox {
-      checked: true
-      text: qsTr("Hide window during scanning")
       anchors.horizontalCenter: parent.horizontalCenter
     }
 
@@ -55,12 +52,12 @@ Page {
     RowLayout {
       Item { Layout.fillWidth: true }
       Button {
-        text: qsTranslate("QPlatformTheme", "Cancel")
+        text: qsTranslate("Qt", "Cancel") // QPlatformTheme
         onClicked: settingsPage.exit()
       }
       spacing: font.pixelSize
       Button {
-        text: qsTranslate("QPlatformTheme", "OK")
+        text: qsTranslate("Qt", "OK") // QPlatformTheme
         onClicked: settingsPage.exit()
       }
     }

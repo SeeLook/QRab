@@ -28,6 +28,8 @@ import TgrabQR 1.0
 Page {
   id: grabPage
 
+  property real defaultSpacing: 10
+
   signal settingsOn()
   signal aboutOn()
 
@@ -37,9 +39,11 @@ Page {
 
   ColumnLayout {
     anchors.fill: parent
+    anchors.margins: defaultSpacing
+
     RowLayout {
       Button {
-        id: "settingsButt"
+        id: settingsButt
         text: qsTr("Settings")
         onClicked: grabPage.settingsOn()
       }
@@ -47,32 +51,61 @@ Page {
       Item { Layout.fillWidth: true }
 
       Button {
-        id: "aboutButt"
+        id: aboutButt
         text: qsTr("About")
         onClicked: grabPage.aboutOn()
       }
     }
-    RowLayout {
-      TextArea {
-        id: "qrText"
-        placeholderText: qsTr("Put any Qr code on a screen")
-        Layout.fillHeight: true
-        Layout.fillWidth: true
+    Flickable {
+      id: flickText
+      Layout.fillHeight: true
+      Layout.fillWidth: true
+      contentWidth: qrText.paintedWidth
+      contentHeight: qrText.paintedHeight
+      clip: true
+
+      function ensureVisible(r) {
+          if (contentX >= r.x)
+              contentX = r.x;
+          else if (contentX+width <= r.x+r.width)
+              contentX = r.x+r.width-width;
+          if (contentY >= r.y)
+              contentY = r.y;
+          else if (contentY+height <= r.y+r.height)
+              contentY = r.y+r.height-height;
+       }
+
+      TextEdit {
+        id: qrText
+        text: qsTr("Put any QR code on a screen\nThen hit GRAB! button")
+        focus: true
+        width: flickText.width
+        height: flickText.height
         wrapMode: TextArea.Wrap
+        onCursorRectangleChanged: flickText.ensureVisible(cursorRectangle)
       }
     }
+
     RowLayout {
-      Label {
-        id: "statusLabel"
-        text: "Status"
-        Layout.fillWidth: true
-        horizontalAlignment: Text.AlignHCenter
-      }
       Button {
-        id: "qrabButt"
-        text: "QRab"
+        id: adjustButt
+        text: qsTr("Adjust sheet")
+        visible: false
+      }
+      Item { Layout.fillWidth: true }
+      Button {
+        id: qrabButt
+        text: qsTr("GRAB!")
         onClicked: {
-          qrText.text = qr.grab()
+          qrText.text = ""
+          var str = qr.grab()
+          if (str == "") {
+              str = qsTr("No QR code found!")
+              adjustButt.visible = false
+          } 
+//           else
+//               adjustButt.visible = true
+          qrText.text = str
         }
       }
     }

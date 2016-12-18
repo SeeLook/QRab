@@ -28,24 +28,17 @@ import QtQuick.Dialogs 1.2
 Page {
   id: aboutPage
 
-  signal exit()
+  property real defaultSpacing: 10
 
-//   function fakeTR(context, string) {
-//     var t = Qt.qsTranslate(context, sourceText);
-//     console.log(context, string);
-//     console.log(t);
-//     return Qt.qsTranslate(context, sourceText);
-//   }
+  signal exit()
 
   ColumnLayout {
     anchors.fill: parent
+    anchors.margins: defaultSpacing
 
     RowLayout {
       anchors.horizontalCenter: parent.horizontalCenter
-//       Image {
-//         source: "qrc:/icons/qrab.png"
-//         sourceSize.width: font.pixelSize * 5
-//       }
+
       Text {
         text: "  QRab 0.1"
         font.bold: true
@@ -75,8 +68,7 @@ Page {
     RowLayout {
       Item { Layout.fillWidth: true }
       Button {
-        text: qsTranslate("QPlatformTheme", "OK")
-//         text: fakeTR("QPlatformTheme", "OK")
+        text: qsTranslate("Qt", "OK") // QPlatformTheme context
         onClicked: aboutPage.exit()
       }
     }
