@@ -24,41 +24,56 @@
 #include <QtGui/QClipboard>
 #include <QtCore/QTemporaryDir>
 #include <QtCore/QProcess>
+#include <QtCore/QTimer>
 #include <QtCore/QDebug>
 
 
 TgrabQR::TgrabQR(QObject* parent) :
   QObject(parent),
-  m_copyToClipB(true)
+  m_copyToClipB(true),
+  m_qrText(tr("Put any QR code on a screen\nThen hit GRAB! button")),
+  m_delay(300)
 {
 }
 
 
-QString TgrabQR::grab() {
+void TgrabQR::grab() {
   auto screen = QGuiApplication::primaryScreen();
 //   if (const QWindow *window = QGuiApplication::windowHandle())
 //     screen = window->screen();
   if (!screen) {
     qDebug() << "No screen to take screenshot";
-    return QString();
+    m_qrText.clear();
+    return;
   }
 
   if (qApp->allWindows().size())
     qApp->allWindows().first()->hide();
 
-  auto str = callZBAR(screen->grabWindow(0));
-  if (!str.isEmpty()) {
-    if (m_copyToClipB) {
-      auto cpStr = str;
-      parseText(cpStr);
-      qApp->clipboard()->setText(cpStr, QClipboard::Clipboard);
-    }
+  QTimer::singleShot(m_delay, [=]{ delayedShot(); });
+}
+
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+void TgrabQR::delayedShot() {
+  auto screen = QGuiApplication::primaryScreen();
+  m_qrText = callZBAR(screen->grabWindow(0));
+  if (m_qrText.isEmpty()) {
+      m_qrText = tr("No QR code found!");
+  } else {
+      if (m_copyToClipB) {
+        auto cpStr = m_qrText;
+        parseText(cpStr);
+        qApp->clipboard()->setText(cpStr, QClipboard::Clipboard);
+      }
   }
 
   if (qApp->allWindows().size())
     qApp->allWindows().first()->show();
 
-  return str;
+  emit grabDone();
 }
 
 
