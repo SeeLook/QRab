@@ -2,28 +2,21 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pl_PL" sourcelanguage="pl">
 <context>
-    <name>AboutDialog</name>
-    <message>
-        <source>About QRab</source>
-        <translation type="vanished">O aplikacji QRab</translation>
-    </message>
-</context>
-<context>
     <name>AboutPage</name>
     <message>
-        <location filename="../src/qml/AboutPage.qml" line="57"/>
+        <location filename="../src/qml/AboutPage.qml" line="47"/>
         <source>Grabs QR code contexts from your screen</source>
         <translation>Przechwyca zawartość kodu QR z twojego ekranu</translation>
     </message>
     <message>
-        <location filename="../src/qml/AboutPage.qml" line="61"/>
+        <location filename="../src/qml/AboutPage.qml" line="51"/>
         <source>Author:</source>
         <translation>Autor:</translation>
     </message>
     <message>
-        <location filename="../src/qml/AboutPage.qml" line="69"/>
+        <location filename="../src/qml/AboutPage.qml" line="59"/>
         <source>On the terms of GPLv3 license.</source>
-        <translation>Na warunkach licencji GPL wersja 3 </translation>
+        <translation>Na warunkach licencji GPL wersja 3. </translation>
     </message>
 </context>
 <context>
@@ -40,33 +33,28 @@
     </message>
     <message>
         <location filename="../src/qml/GrabPage.qml" line="58"/>
-        <source>Put any Qr code on a screen</source>
+        <source>Put any Qr code on a screen
+Then hit GRAB! button</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>Main</name>
     <message>
-        <source>Settings</source>
-        <translation type="vanished">Ustawienia</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">O...</translation>
+        <location filename="../src/qml/GrabPage.qml" line="70"/>
+        <source>GRAB!</source>
+        <translation>ŁAP!</translation>
     </message>
 </context>
 <context>
-    <name>QPlatformTheme</name>
+    <name>Qt</name>
     <message>
-        <location filename="../src/qml/AboutPage.qml" line="78"/>
+        <location filename="../src/qml/AboutPage.qml" line="68"/>
         <location filename="../src/qml/SettingsPage.qml" line="63"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/qml/SettingsPage.qml" line="58"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
 </context>
 <context>
@@ -85,6 +73,14 @@
         <location filename="../src/qml/SettingsPage.qml" line="49"/>
         <source>Keep QRab window on top</source>
         <translation>Pozostaw okno QRab na wierzchu</translation>
+    </message>
+</context>
+<context>
+    <name>TgrabQR</name>
+    <message>
+        <location filename="../src/tgrabqr.cpp" line="54"/>
+        <source>No QR code found!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

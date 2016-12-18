@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
   a.setWindowIcon(QIcon(QStringLiteral(":/icons/qrab.png")));
 
 // Loading translations
-  QTranslator qtTranslator;
   QTranslator qrabTranslator;
 
 #if defined (Q_OS_MAC)
@@ -45,25 +44,7 @@ int main(int argc, char *argv[])
 #endif
   QLocale::setDefault(loc);
 
-  QString path;
-    QDir d = QDir(qApp->applicationDirPath());
-#if defined (Q_OS_WIN)
-    path = d.path() + QLatin1String("/");
-  #elif defined (Q_OS_LINUX)
-    d.cdUp();
-    path = d.path() + QLatin1String("/share/QRab/");
-  #elif defined (Q_OS_MAC)
-      d.cdUp();
-      path = d.path() + QLatin1String("/Resources/");
-#endif
-
-  QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-#if !defined (Q_OS_LINUX)
-  translationsPath = path + QLatin1String("/lang");
-#endif
-  if (qtTranslator.load(loc, QStringLiteral("qt_"), QString(), translationsPath))
-    a.installTranslator(&qtTranslator);
-  if (qrabTranslator.load(loc, QStringLiteral("qrab_"), QString(), path + QLatin1String("/lang")))
+  if (qrabTranslator.load(loc, QStringLiteral("qrab_"), QString(), QStringLiteral(":/lang")))
     a.installTranslator(&qrabTranslator);
 
 
