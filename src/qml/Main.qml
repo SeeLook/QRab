@@ -29,15 +29,16 @@ ApplicationWindow {
   visible: true
   title: "QRab"
 
+  property string titleText: "QRab"
+
   flags: Qt.WindowStaysOnTopHint
 
   width: Screen.desktopAvailableWidth / 3; height: Screen.desktopAvailableHeight / 3
 
-  property string titleText: "QRab"
-
   SwipeView {
     id: swipeView
     anchors.fill: parent
+
     currentIndex: 1
 
     SettingsPage {
