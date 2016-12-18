@@ -9,6 +9,7 @@
 
     <!-- Icons -->
     <file>icons/qrab.png</file>
+    <file>icons/qrab-image.png</file>
 
     <file>qtquickcontrols2.conf</file>
   </qresource>
