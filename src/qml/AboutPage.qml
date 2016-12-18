@@ -42,10 +42,10 @@ Page {
 
     RowLayout {
       anchors.horizontalCenter: parent.horizontalCenter
-      Image {
-        source: "qrc:/icons/qrab.png"
-        sourceSize.width: font.pixelSize * 5
-      }
+//       Image {
+//         source: "qrc:/icons/qrab.png"
+//         sourceSize.width: font.pixelSize * 5
+//       }
       Text {
         text: "  QRab 0.1"
         font.bold: true
@@ -80,6 +80,12 @@ Page {
         onClicked: aboutPage.exit()
       }
     }
+  }
+  Image {
+    source: "qrc:/icons/qrab-image.png"
+    sourceSize.height: font.pixelSize * 15
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
   }
 }
 

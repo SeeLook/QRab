@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication a(argc, argv);
 
+  a.setWindowIcon(QIcon(QStringLiteral(":/icons/qrab.png")));
+
 // Loading translations
   QTranslator qtTranslator;
   QTranslator qrabTranslator;
@@ -71,8 +73,6 @@ int main(int argc, char *argv[])
 
   QQmlApplicationEngine engine;
   engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
-
-  a.setWindowIcon(QIcon(QStringLiteral("qrc:/icons/qrab.png")));
 
   return a.exec();
 }
