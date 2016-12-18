@@ -31,15 +31,22 @@ class TgrabQR : public QObject
   Q_OBJECT
 
   Q_PROPERTY(QString QRtext READ grab)
+  Q_PROPERTY(bool copyToClipboard READ copyToClipboard WRITE setCopyToClipboard)
 
 public:
   explicit TgrabQR(QObject* parent = nullptr);
 
   Q_INVOKABLE QString grab();
 
+  bool copyToClipboard() { return m_copyToClipB; }
+  void setCopyToClipboard(bool copyTo) { m_copyToClipB = copyTo; }
+
 private:
   QString callZBAR(const QPixmap& pix);
+  void parseText(QString& str);
 
+private:
+  bool              m_copyToClipB;
 };
 
 #endif // TGRABQR_H

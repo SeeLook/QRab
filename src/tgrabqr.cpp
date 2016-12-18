@@ -19,15 +19,17 @@
 #include "tgrabqr.h"
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
-// #include <QtGui/QWindow>
+#include <QtGui/QWindow>
 #include <QtGui/QPixmap>
+#include <QtGui/QClipboard>
 #include <QtCore/QTemporaryDir>
 #include <QtCore/QProcess>
 #include <QtCore/QDebug>
 
 
 TgrabQR::TgrabQR(QObject* parent) :
-  QObject(parent)
+  QObject(parent),
+  m_copyToClipB(true)
 {
 }
 
@@ -41,15 +43,22 @@ QString TgrabQR::grab() {
     return QString();
   }
 
-  return callZBAR(screen->grabWindow(0));
-//   if (str.isEmpty()) {
-//       m_textEdit->setText(tr("No QR code found!"));
-//   } else {
-//       m_textEdit->setText(str);
-//       parseText(str);
-//       qApp->clipboard()->setText(str, QClipboard::Clipboard);
-//   }
-  
+  if (qApp->allWindows().size())
+    qApp->allWindows().first()->hide();
+
+  auto str = callZBAR(screen->grabWindow(0));
+  if (!str.isEmpty()) {
+    if (m_copyToClipB) {
+      auto cpStr = str;
+      parseText(cpStr);
+      qApp->clipboard()->setText(cpStr, QClipboard::Clipboard);
+    }
+  }
+
+  if (qApp->allWindows().size())
+    qApp->allWindows().first()->show();
+
+  return str;
 }
 
 
@@ -70,3 +79,12 @@ QString TgrabQR::callZBAR(const QPixmap& pix) {
   }
   return QString();
 }
+
+
+void TgrabQR::parseText(QString& str) {
+  str.replace(QLatin1String("\n"), QLatin1String("\t"));
+}
+
+
+
+
