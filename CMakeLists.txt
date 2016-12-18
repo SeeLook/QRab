@@ -24,10 +24,20 @@ set(qrab_SRC
   src/tgrabqr.cpp
 )
 
+
+if(MINGW)
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qrabico.o
+                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../icons/qrab-icon.rc
+                            -o ${CMAKE_CURRENT_BINARY_DIR}/qrabico.o )
+    set(qrab_SRCS ${qrab_SRC} ${CMAKE_CURRENT_BINARY_DIR}/qrabico.o)
+    set(qrab_EXE_ICON qrabico.o)
+endif(MINGW)
+
+
 qt5_add_resources(qrab_SRC qrab.qrc)
 
 
-add_executable(qrab ${qrab_SRC})
+add_executable(qrab WIN32 ${qrab_SRC} ${qrab_EXE_ICON})
 
 
 target_link_libraries(qrab 
@@ -38,5 +48,37 @@ target_link_libraries(qrab
     Qt5::QuickControls2
 )
 
+if(UNIX AND NOT APPLE)
+    install(TARGETS qrab DESTINATION bin)
+    install(FILES icons/qrab.png DESTINATION share/pixmaps)
+    install(FILES icons/qrab.desktop DESTINATION share/applications)
+else()
+  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+  get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
+  if(WIN32)
+    install(TARGETS qrab DESTINATION .)
+    add_custom_target(deploy
+      COMMAND echo "deploying..."
+      COMMAND ${QT_BINARY_DIR}/windeployqt.exe ${CMAKE_INSTALL_PREFIX}/qrab.exe --release --no-translations --no-svg
+    )
+  else()
+    install(TARGETS qrab DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents/MacOs")
+    install(FILES "${CMAKE_SOURCE_DIR}/icons/qrab.icns" DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents/Resources")
+    install(FILES "${CMAKE_SOURCE_DIR}/icons/info.plist" DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents")
+    add_custom_target(deploy
+      COMMAND echo "deploying..."
+      COMMAND echo ${QT_BINARY_DIR}/../../bin
+      COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/qrab.app
+    )
+  endif(WIN32)
+endif(UNIX AND NOT APPLE)
 
-install(TARGETS qrab DESTINATION bin)
+
+configure_file(
+     "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+     "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+        IMMEDIATE @ONLY)
+
+  add_custom_target(uninstall
+   COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+)
