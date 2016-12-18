@@ -77,7 +77,7 @@ Page {
 
       TextEdit {
         id: qrText
-        text: qsTr("Put any QR code on a screen\nThen hit GRAB! button")
+        text: qr.qrText
         focus: true
         width: flickText.width
         height: flickText.height
@@ -90,22 +90,14 @@ Page {
       Button {
         id: adjustButt
         text: qsTr("Adjust sheet")
-        visible: false
+//         visible: false
       }
       Item { Layout.fillWidth: true }
       Button {
         id: qrabButt
         text: qsTr("GRAB!")
         onClicked: {
-          qrText.text = ""
-          var str = qr.grab()
-          if (str == "") {
-              str = qsTr("No QR code found!")
-              adjustButt.visible = false
-          } 
-//           else
-//               adjustButt.visible = true
-          qrText.text = str
+          qr.grab()
         }
       }
     }

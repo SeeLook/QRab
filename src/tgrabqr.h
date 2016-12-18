@@ -25,21 +25,36 @@
 
 class QPixmap;
 
+/**
+ * This is wrapper around zbar library/executable.
+ * Takes screenshot, saves it to temp,
+ * then calls zbar to decode QR code.
+ */
 class TgrabQR : public QObject
 {
 
   Q_OBJECT
 
-  Q_PROPERTY(QString QRtext READ grab)
   Q_PROPERTY(bool copyToClipboard READ copyToClipboard WRITE setCopyToClipboard)
+  Q_PROPERTY(QString qrText READ qrText WRITE setQRtext NOTIFY grabDone)
+
 
 public:
   explicit TgrabQR(QObject* parent = nullptr);
 
-  Q_INVOKABLE QString grab();
+  Q_INVOKABLE void grab();
 
   bool copyToClipboard() { return m_copyToClipB; }
   void setCopyToClipboard(bool copyTo) { m_copyToClipB = copyTo; }
+
+  QString qrText() { return m_qrText; }
+  void setQRtext(const QString& str) { m_qrText = str; }
+
+signals:
+  void grabDone();
+
+protected:
+  void delayedShot();
 
 private:
   QString callZBAR(const QPixmap& pix);
@@ -47,6 +62,8 @@ private:
 
 private:
   bool              m_copyToClipB;
+  QString           m_qrText; /**< Currently detected text or info that no QR code was found */
+  int               m_delay;
 };
 
 #endif // TGRABQR_H
