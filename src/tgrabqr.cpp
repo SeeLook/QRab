@@ -31,7 +31,6 @@
 TgrabQR::TgrabQR(QObject* parent) :
   QObject(parent),
   m_copyToClipB(true),
-  m_qrText(tr("Put any QR code on a screen\nThen hit GRAB! button")),
   m_delay(300)
 {
 }
@@ -60,9 +59,7 @@ void TgrabQR::grab() {
 void TgrabQR::delayedShot() {
   auto screen = QGuiApplication::primaryScreen();
   m_qrText = callZBAR(screen->grabWindow(0));
-  if (m_qrText.isEmpty()) {
-      m_qrText = tr("No QR code found!");
-  } else {
+  if (!m_qrText.isEmpty()) {
       if (m_copyToClipB) {
         auto cpStr = m_qrText;
         parseText(cpStr);
