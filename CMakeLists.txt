@@ -59,7 +59,7 @@ else()
     install(TARGETS qrab DESTINATION .)
     add_custom_target(deploy
       COMMAND echo "deploying..."
-      COMMAND ${QT_BINARY_DIR}/windeployqt.exe ${CMAKE_INSTALL_PREFIX}/qrab.exe --release --no-translations --no-svg
+      COMMAND ${QT_BINARY_DIR}/windeployqt.exe --release --no-translations --no-svg --qmldir "${CMAKE_SOURCE_DIR}/src/qml"  "${CMAKE_INSTALL_PREFIX}/qrab.exe"
     )
   else()
     install(TARGETS qrab DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents/MacOs")
