@@ -39,32 +39,44 @@ Page {
     RowLayout {
       anchors.horizontalCenter: parent.horizontalCenter
 
+      Image {
+        source: "qrc:/icons/qrab-image.png"
+        sourceSize.height: font.pixelSize * 7
+      }
       Text {
         text: "  QRab 0.1"
         font.bold: true
         Component.onCompleted: font.pixelSize = font.pixelSize * 2
       }
     }
-
     Text {
       text: qsTr("Grabs QR code contexts from your screen")
       anchors.horizontalCenter: parent.horizontalCenter
     }
+    RowLayout {
+      anchors.horizontalCenter: parent.horizontalCenter
+      Text { text: qsTr("Author:") }
+      Text {
+        text: " Tomasz Bojczuk"
+        font.bold: true
+      }
+    }
     Text {
-      text: qsTr("Author:") 
+      text: qsTr("On the terms of GNU GPLv3 license.") 
       anchors.horizontalCenter: parent.horizontalCenter
     }
     Text {
-      text: "Tomasz Bojczuk"
+      text: qsTr("QRab uses %1 to handle QR codes.<br>Zbar is delivering on GNU LGPLv2.1 license.").arg("<b><a href=\"http://zbar.sf.net\">zbar</a></b>")
       anchors.horizontalCenter: parent.horizontalCenter
+      horizontalAlignment: Text.AlignHCenter
+      onLinkActivated: Qt.openUrlExternally(link)
+      MouseArea { // make hand cursor over link text
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+      }
     }
-    Text {
-      text: qsTr("On the terms of GPLv3 license.") 
-      anchors.horizontalCenter: parent.horizontalCenter
-    }
-    Item { // a spacer
-      Layout.fillHeight: true
-    }
+    Item { Layout.fillHeight: true } // a spacer
     RowLayout {
       Item { Layout.fillWidth: true }
       Button {
@@ -72,12 +84,6 @@ Page {
         onClicked: aboutPage.exit()
       }
     }
-  }
-  Image {
-    source: "qrc:/icons/qrab-image.png"
-    sourceSize.height: font.pixelSize * 15
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
   }
 }
 
