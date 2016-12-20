@@ -31,13 +31,12 @@
 TgrabQR::TgrabQR(QObject* parent) :
   QObject(parent),
   m_copyToClipB(true),
-  m_grabDelay(300)
+  m_grabDelay(100)
 {
 }
 
 
 void TgrabQR::grab() {
-  qDebug() << "m_copyToClipB" << m_copyToClipB << "delay" << m_grabDelay;
   auto screen = QGuiApplication::primaryScreen();
 //   if (const QWindow *window = QGuiApplication::windowHandle())
 //     screen = window->screen();
