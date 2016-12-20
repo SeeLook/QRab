@@ -20,8 +20,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-import QtQuick.Window 2.0
-import QtQuick.Controls.Material 2.0
 
 import TgrabQR 1.0
 import QRab.settings 1.0
@@ -71,6 +69,7 @@ Page {
       flickableDirection: Flickable.VerticalFlick
       contentWidth: qrText.paintedWidth
       contentHeight: qrText.paintedHeight
+      clip: true
 
       function ensureVisible(r) {
           if (contentX >= r.x)
