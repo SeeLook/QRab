@@ -5,6 +5,7 @@
     <file alias="AboutPage.qml">src/qml/AboutPage.qml</file>
     <file alias="SettingsPage.qml">src/qml/SettingsPage.qml</file>
     <file alias="GrabPage.qml">src/qml/GrabPage.qml</file>
+    <file alias="QRabSettings.qml">src/qml/QRabSettings.qml</file>
 
     <!-- Icons -->
     <file>icons/qrab.png</file>

@@ -23,42 +23,68 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.0
 import QtQuick.Dialogs 1.2
 
+import QRab.settings 1.0
+
 
 Page {
   id: settingsPage
 
   property real defaultSpacing: 10
 
-  signal exit()
+  signal exit(bool accepted)
 
-  ColumnLayout {
+  Flickable {
     anchors.fill: parent
-    anchors.margins: defaultSpacing
+    flickableDirection: Flickable.VerticalFlick
 
-    CheckBox {
-      checked: true
-      text: qsTr("Copy QR text to clipboard")
-      anchors.horizontalCenter: parent.horizontalCenter
-    }
+    ColumnLayout {
+      anchors.fill: parent
+      anchors.margins: defaultSpacing
 
-    CheckBox {
-      checked: true
-      text: qsTr("Keep QRab window on top")
-      anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    Item { Layout.fillHeight: true }
-
-    RowLayout {
-      Item { Layout.fillWidth: true }
-      Button {
-        text: qsTranslate("Qt", "Cancel") // QPlatformTheme
-        onClicked: settingsPage.exit()
+      CheckBox {
+        id: copyCheckBox
+        checked: QRabSettings.copyToClipboard
+        text: qsTr("Copy QR text to clipboard")
+        anchors.horizontalCenter: parent.horizontalCenter
       }
-      spacing: font.pixelSize
-      Button {
-        text: qsTranslate("Qt", "OK") // QPlatformTheme
-        onClicked: settingsPage.exit()
+
+      CheckBox {
+        id: keepCheckBox
+        checked: QRabSettings.keepOnTop
+        text: qsTr("Keep QRab window on top")
+        anchors.horizontalCenter: parent.horizontalCenter
+      }
+
+      RowLayout {
+        anchors.horizontalCenter: parent.horizontalCenter
+        Text { text: qsTr("Grab delay") }
+        SpinBox {
+          id: delaySpinBox
+          value: QRabSettings.grabDelay
+          from: 0
+          to: 2000
+          stepSize: 100
+        }
+      }
+
+      Item { Layout.fillHeight: true }
+
+      RowLayout {
+        Item { Layout.fillWidth: true }
+        Button {
+          text: qsTranslate("Qt", "Cancel") // QPlatformTheme
+          onClicked: settingsPage.exit(false)
+        }
+        spacing: font.pixelSize
+        Button {
+          text: qsTranslate("Qt", "OK") // QPlatformTheme
+          onClicked: {
+            QRabSettings.copyToClipboard = copyCheckBox.checked
+            QRabSettings.grabDelay = delaySpinBox.value
+            QRabSettings.keepOnTop = keepCheckBox.checked
+            settingsPage.exit(true)
+          }
+        }
       }
     }
   }

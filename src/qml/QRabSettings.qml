@@ -16,75 +16,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
+pragma Singleton
 import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
-import QtQuick.Window 2.0
-import QtQuick.Controls.Material 2.0
 import Qt.labs.settings 1.0
 
-import QRab.settings 1.0
 
-
-ApplicationWindow {
-  id: qrabWindow
-  visible: true
-  title: "QRab"
-
-  property string titleText: "QRab"
-
-  x: settings.x
-  y: settings.y
-  width: settings.w
-  height: settings.h
-
-  SwipeView {
-    id: swipeView
-    anchors.fill: parent
-
-    currentIndex: 1
-
-    SettingsPage {
-      id: settingsPage
-      onExit: {
-        if (accepted) {
-          grabPage.acceptSettings()
-          qrabWindow.flags = QRabSettings.keepOnTop ? qrabWindow.flags | Qt.WindowStaysOnTopHint : qrabWindow.flags & ~Qt.WindowStaysOnTopHint
-        }
-        swipeView.currentIndex = 1
-      }
-    }
-
-    GrabPage {
-      id: grabPage
-      onSettingsOn: swipeView.currentIndex = 0
-      onAboutOn: swipeView.currentIndex = 2
-    }
-
-    AboutPage {
-      id: aboutPage
-      onExit: swipeView.currentIndex = 1
-    }
-  }
+/**
+ * Single instance object with all QRab settings
+ * shared between other objects
+ */
+Item {
+  property int grabDelay: 100
+  property bool copyToClipboard: true
+  property bool keepOnTop: true
 
   Settings {
     id: settings
-    category: "Geometry"
-    property int x: 1
-    property int y: Screen.desktopAvailableHeight * 0.66
-    property int w: Screen.desktopAvailableWidth / 3
-    property int h: Screen.desktopAvailableHeight / 3
+    category: "QRab"
+    property bool copyToClipboard: true
+    property bool keepOnTop: true
+    property int grabDelay: 100
   }
 
   Component.onCompleted: {
-    qrabWindow.flags = QRabSettings.keepOnTop ? qrabWindow.flags | Qt.WindowStaysOnTopHint : qrabWindow.flags
+    grabDelay = settings.grabDelay
+    copyToClipboard = settings.copyToClipboard
+    keepOnTop = settings.keepOnTop
   }
 
   Component.onDestruction: {
-    settings.x = qrabWindow.x
-    settings.y = qrabWindow.y
-    settings.w = qrabWindow.width
-    settings.h = qrabWindow.height
+    settings.grabDelay = grabDelay
+    settings.copyToClipboard = copyToClipboard
+    settings.keepOnTop = keepOnTop
   }
 }
+
