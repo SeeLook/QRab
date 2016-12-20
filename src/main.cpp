@@ -32,6 +32,9 @@ int main(int argc, char *argv[])
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication a(argc, argv);
 
+  QCoreApplication::setOrganizationName("QRab");
+  QCoreApplication::setOrganizationDomain("qrab.sf.net");
+
   a.setWindowIcon(QIcon(QStringLiteral(":/icons/qrab.png")));
 
 // Loading translations
@@ -49,6 +52,7 @@ int main(int argc, char *argv[])
 
 
   qmlRegisterType<TgrabQR>("TgrabQR", 1, 0, "TgrabQR");
+  qmlRegisterSingletonType(QUrl("qrc:/QRabSettings.qml"), "QRab.settings", 1, 0, "QRabSettings");
 
 //   QQuickStyle::setStyle(QStringLiteral("Material"));
 

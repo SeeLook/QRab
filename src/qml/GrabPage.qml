@@ -24,6 +24,8 @@ import QtQuick.Window 2.0
 import QtQuick.Controls.Material 2.0
 
 import TgrabQR 1.0
+import QRab.settings 1.0
+
 
 Page {
   id: grabPage
@@ -35,6 +37,12 @@ Page {
 
   TgrabQR {
     id: qr
+    Component.onCompleted: grabPage.acceptSettings()
+  }
+
+  function acceptSettings() {
+    qr.copyToClipboard = QRabSettings.copyToClipboard
+    qr.grabDelay = QRabSettings.grabDelay
   }
 
   ColumnLayout {
@@ -60,9 +68,9 @@ Page {
       id: flickText
       Layout.fillHeight: true
       Layout.fillWidth: true
+      flickableDirection: Flickable.VerticalFlick
       contentWidth: qrText.paintedWidth
       contentHeight: qrText.paintedHeight
-      clip: true
 
       function ensureVisible(r) {
           if (contentX >= r.x)
@@ -82,7 +90,9 @@ Page {
         width: flickText.width
         height: flickText.height
         wrapMode: TextArea.Wrap
+        readOnly: true
         onCursorRectangleChanged: flickText.ensureVisible(cursorRectangle)
+
         Connections {
           target: qr
           onGrabDone: {
