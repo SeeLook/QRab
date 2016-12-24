@@ -53,6 +53,11 @@ void TgrabQR::grab() {
 }
 
 
+void TgrabQR::setReplaceList(QStringList& rl) {
+  m_replaceList = rl;
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -94,7 +99,17 @@ QString TgrabQR::callZBAR(const QPixmap& pix) {
 
 
 void TgrabQR::parseText(QString& str) {
-  str.replace(QLatin1String("\n"), QLatin1String("\t"));
+  if (!m_replaceList.isEmpty()) {
+    int c = 0;
+    while (c < m_replaceList.size()) {
+      if (c + 1 >= m_replaceList.size()) {
+        qDebug() << "Wrong no pair number of find-replace texts in 'replace list'";
+        return;
+      }
+      str.replace(m_replaceList[c], m_replaceList[c + 1]);
+      c += 2;
+    }
+  }
 }
 
 
