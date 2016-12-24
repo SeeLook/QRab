@@ -86,7 +86,8 @@ Page {
 
       TextEdit {
         id: qrText
-        text: qsTr("Put any QR code on a screen\nThen hit GRAB! button")
+        textFormat: Text.RichText
+        text: "<b><center style=\"font-size: xx-large\">" + qsTr("Put any QR code on a screen,<br>then hit GRAB! button") + "</center></b>"
         focus: true
         width: flickText.width
         height: flickText.height
@@ -99,9 +100,11 @@ Page {
           onGrabDone: {
             var str = qr.qrText
             if (str == "") {
-                qrText.text = qsTr("No QR code found!")
+                qrText.textFormat = Text.RichText
+                qrText.text = "<b><center style=\"color: red; font-size: xx-large\">" + qsTr("No QR code found!") + "</center></b>"
                 adjustButt.visible = false
             } else {
+                qrText.textFormat = Text.PlainText
                 qrText.text = str
                 adjustButt.visible = true
             }
