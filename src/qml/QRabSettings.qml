@@ -24,11 +24,18 @@ import Qt.labs.settings 1.0
 /**
  * Single instance object with all QRab settings
  * shared between other objects
+ * Due to bug in Qt string list has to be merged before storing
+ * Magic separator for it is defined in @p splitString "&|$"
  */
 Item {
-  property int grabDelay: 100
-  property bool copyToClipboard: true
-  property bool keepOnTop: true
+  property int grabDelay
+  property bool copyToClipboard
+  property bool keepOnTop
+  property var replaceList
+  property string concatList
+  default property string splitString: "&|$"
+
+  onConcatListChanged: replaceList = concatList.split(splitString)
 
   Settings {
     id: settings
@@ -36,18 +43,22 @@ Item {
     property bool copyToClipboard: true
     property bool keepOnTop: true
     property int grabDelay: 100
+    property var concatList: "\n" + splitString + "\t"
   }
 
   Component.onCompleted: {
     grabDelay = settings.grabDelay
     copyToClipboard = settings.copyToClipboard
     keepOnTop = settings.keepOnTop
+    concatList = settings.concatList
   }
 
   Component.onDestruction: {
     settings.grabDelay = grabDelay
     settings.copyToClipboard = copyToClipboard
     settings.keepOnTop = keepOnTop
+    if (replaceList)
+      settings.concatList = replaceList.join(splitString)
   }
 }
 

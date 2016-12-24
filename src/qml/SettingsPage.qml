@@ -76,6 +76,7 @@ Page {
             }
             ReplaceList {
               id: replaceList
+              replaceTexts: QRabSettings.replaceList
 //               interactive: false
               anchors {
                 horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; left: parent.left; }
@@ -93,9 +94,11 @@ Page {
       Button {
         text: qsTranslate("Qt", "OK") // QPlatformTheme
         onClicked: {
+          replaceList.save()
           QRabSettings.copyToClipboard = copyCheckBox.checked
           QRabSettings.grabDelay = delaySpinBox.value
           QRabSettings.keepOnTop = keepCheckBox.checked
+          QRabSettings.replaceList = replaceList.replaceTexts
           settingsPage.exit(true)
         }
       }

@@ -25,6 +25,42 @@ ListView {
   id: replaceList
   clip: true
 
+  property var replaceTexts
+
+  onReplaceTextsChanged: {
+    if (replaceTexts) {
+      for (var i = 0; i < replaceTexts.length - 1; ++i) {
+        if (i < replaceModel.count * 2) {
+            if (i % 2 == 0)
+              replaceModel.set(i / 2, { "before": replaceTexts[i], "after": replaceTexts[i + 1] })
+        } else {
+            if (i % 2 == 0)
+              replaceModel.append({ "before": replaceTexts[i], "after": replaceTexts[i + 1] })
+        }
+      }
+    }
+  }
+
+  function save() {
+    replaceTexts = []
+    for (var i = 0; i < replaceModel.count; ++i) {
+      var b = replaceModel.get(i)
+      if (b.before != "") { // skip empty strings in 'before' field
+        replaceTexts.push(mapSpecial(b.before))
+        replaceTexts.push(mapSpecial(b.after))
+      }
+    }
+  }
+
+  function mapSpecial(s) {
+    if (s == "\\n")
+      return "\n"
+    if (s == "\\t")
+      return "\t"
+    return s;
+  }
+
+
   Component {
     id: delegate
 
@@ -32,17 +68,19 @@ ListView {
       id: delegateItem
       width: replaceList.width;
       height: beforeText.height
-//       clip: true
+
       Row {
         Layout.fillWidth: true
         anchors { horizontalCenter: parent.horizontalCenter}
         spacing: font.pixelSize
+        Text { text: index + 1 + "."; font.bold: true }
         TextField {
           id: beforeText
           placeholderText: qsTr("before")
           text: before
           horizontalAlignment: TextInput.AlignHCenter
           maximumLength: 20
+          onEditingFinished: replaceModel.set(index, { "before": beforeText.text, "after": afterText.text })
         }
         Text { text: "->" }
         TextField {
@@ -51,6 +89,7 @@ ListView {
           text: after
           horizontalAlignment: TextInput.AlignHCenter
           maximumLength: 20
+          onEditingFinished: replaceModel.set(index, { "before": beforeText.text, "after": afterText.text })
         }
         Button {
           id: addButton
@@ -59,7 +98,10 @@ ListView {
             sourceSize.height: parent.height * 0.75
             anchors.centerIn: parent
           }
-          onClicked: replaceModel.insert(index + 1, { "before": "", "after": "" })
+          onClicked: {
+            if (count < 10)
+              replaceModel.insert(index + 1, { "before": "", "after": "" })
+          }
         }
         Button {
           id: rmButton
@@ -68,16 +110,21 @@ ListView {
             sourceSize.height: parent.height * 0.75
             anchors.centerIn: parent
           }
-          onClicked: replaceModel.remove(index)
+          onClicked: {
+            if (count > 1)
+              replaceModel.remove(index)
+            else // just flush texts if only single element is displayed
+              replaceModel.set(index, { "before": "", "after": "" })
+          }
         }
       }
       ListView.onAdd: SequentialAnimation {
-        PropertyAction { target: delegateItem; property: "height"; value: 0 }
-        NumberAnimation { target: delegateItem; property: "height"; to: 80; duration: 250; easing.type: Easing.InOutQuad }
+        PropertyAction { target: delegateItem; property: "width"; value: 0 }
+        NumberAnimation { target: delegateItem; property: "width"; to: replaceList.width; duration: 250; easing.type: Easing.InOutQuad }
       }
       ListView.onRemove: SequentialAnimation {
         PropertyAction { target: delegateItem; property: "ListView.delayRemove"; value: true }
-        NumberAnimation { target: delegateItem; property: "height"; to: 0; duration: 250; easing.type: Easing.InOutQuad }
+        NumberAnimation { target: delegateItem; property: "width"; to: 0; duration: 250; easing.type: Easing.InOutQuad }
         PropertyAction { target: delegateItem; property: "ListView.delayRemove"; value: false }
       }
     }
