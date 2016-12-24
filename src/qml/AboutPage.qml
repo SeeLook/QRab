@@ -78,10 +78,13 @@ Page {
               source: "qrc:/icons/qrab-image.png"
               sourceSize.height: font.pixelSize * 7
             }
-            Text {
-              text: "  QRab 0.1"
-              font.bold: true
-              Component.onCompleted: font.pixelSize = font.pixelSize * 2
+            ColumnLayout {
+              Text {
+                text: "  QRab 0.3"
+                font.bold: true
+                Component.onCompleted: font.pixelSize = font.pixelSize * 2
+              }
+              LinkText { text: " <a href=\"https://qrab.sourceforge.io\">https://qrab.sourceforge.io</a>" }
             }
           }
           Text {
@@ -91,8 +94,8 @@ Page {
           RowLayout {
             anchors.horizontalCenter: parent.horizontalCenter
             Text { text: qsTr("Author:") }
-            Text {
-              text: " Tomasz Bojczuk"
+            LinkText {
+              text: " Tomasz Bojczuk <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"
               font.bold: true
             }
           }
@@ -100,16 +103,10 @@ Page {
             text: qsTr("On the terms of GNU GPLv3 license.") 
             anchors.horizontalCenter: parent.horizontalCenter
           }
-          Text {
+          LinkText {
             text: qsTr("QRab uses %1 to handle QR codes.<br>Zbar is delivering on GNU LGPLv2.1 license.").arg("<b><a href=\"http://zbar.sf.net\">zbar</a></b>")
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
-            onLinkActivated: Qt.openUrlExternally(link)
-            MouseArea { // make hand cursor over link text
-              anchors.fill: parent
-              acceptedButtons: Qt.NoButton
-              cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-            }
           }
           Item { Layout.fillHeight: true } // a spacer
         }
@@ -140,16 +137,10 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA"
                     )
               horizontalAlignment: Text.AlignJustify
             }
-            Text {
+            LinkText {
               text: "<a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">https://www.gnu.org/licenses/gpl-3.0.html</a>"
               anchors.horizontalCenter: parent.horizontalCenter
               font.bold: true
-              onLinkActivated: Qt.openUrlExternally(link)
-              MouseArea { // make hand cursor over link text
-                anchors.fill: parent
-                acceptedButtons: Qt.NoButton
-                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-              }
             }
             Item { height: aboutPage.font.pixelSize * 3 }
           }
