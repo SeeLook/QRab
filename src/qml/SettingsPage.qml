@@ -30,58 +30,78 @@ Page {
 
   signal exit(bool accepted)
 
-  Flickable {
-    anchors.fill: parent
-    flickableDirection: Flickable.VerticalFlick
+  RowLayout {
+    anchors { fill: parent; margins: defaultSpacing }
+    ColumnLayout {
+      Layout.fillHeight: true
+      anchors {left: parent.left; top: parent.top; bottom: parent.bottom }
+      Flickable {
+        anchors.fill: parent
+        flickableDirection: Flickable.VerticalFlick
+        clip: true
+        height: leftLay.height
+
+        ColumnLayout {
+          id: leftLay
+          anchors { fill: parent }
+
+          CheckBox {
+            id: copyCheckBox
+            checked: QRabSettings.copyToClipboard
+            text: qsTr("Copy QR text to clipboard")
+            anchors.horizontalCenter: parent.horizontalCenter
+          }
+
+          CheckBox {
+            id: keepCheckBox
+            checked: QRabSettings.keepOnTop
+            text: qsTr("Keep QRab window on top")
+            anchors.horizontalCenter: parent.horizontalCenter
+          }
+
+          RowLayout {
+            anchors.horizontalCenter: parent.horizontalCenter
+            Text { text: qsTr("Grab delay") }
+            SpinBox {
+              id: delaySpinBox
+              value: QRabSettings.grabDelay
+              from: 0
+              to: 2000
+              stepSize: 100
+            }
+          }
+            Label {
+              text: qsTr("Replace QR text")
+              anchors.horizontalCenter: parent.horizontalCenter
+            }
+            ReplaceList {
+              id: replaceList
+//               interactive: false
+              anchors {
+                horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; left: parent.left; }
+              Layout.fillWidth: true
+              Layout.fillHeight: true
+            }
+        }
+      }
+    }
 
     ColumnLayout {
-      anchors.fill: parent
-      anchors.margins: defaultSpacing
-
-      CheckBox {
-        id: copyCheckBox
-        checked: QRabSettings.copyToClipboard
-        text: qsTr("Copy QR text to clipboard")
-        anchors.horizontalCenter: parent.horizontalCenter
-      }
-
-      CheckBox {
-        id: keepCheckBox
-        checked: QRabSettings.keepOnTop
-        text: qsTr("Keep QRab window on top")
-        anchors.horizontalCenter: parent.horizontalCenter
-      }
-
-      RowLayout {
-        anchors.horizontalCenter: parent.horizontalCenter
-        Text { text: qsTr("Grab delay") }
-        SpinBox {
-          id: delaySpinBox
-          value: QRabSettings.grabDelay
-          from: 0
-          to: 2000
-          stepSize: 100
-        }
-      }
-
+      anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
       Item { Layout.fillHeight: true }
-
-      RowLayout {
-        Item { Layout.fillWidth: true }
-        Button {
-          text: qsTranslate("Qt", "Cancel") // QPlatformTheme
-          onClicked: settingsPage.exit(false)
+      spacing: font.pixelSize
+      Button {
+        text: qsTranslate("Qt", "OK") // QPlatformTheme
+        onClicked: {
+          QRabSettings.copyToClipboard = copyCheckBox.checked
+          QRabSettings.grabDelay = delaySpinBox.value
+          QRabSettings.keepOnTop = keepCheckBox.checked
+          settingsPage.exit(true)
         }
-        spacing: font.pixelSize
-        Button {
-          text: qsTranslate("Qt", "OK") // QPlatformTheme
-          onClicked: {
-            QRabSettings.copyToClipboard = copyCheckBox.checked
-            QRabSettings.grabDelay = delaySpinBox.value
-            QRabSettings.keepOnTop = keepCheckBox.checked
-            settingsPage.exit(true)
-          }
-        }
+      }
+      Button {
+        text: qsTranslate("Qt", "Cancel") // QPlatformTheme
+        onClicked: settingsPage.exit(false)
       }
     }
   }
