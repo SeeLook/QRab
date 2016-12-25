@@ -38,6 +38,7 @@ class TgrabQR : public QObject
   Q_PROPERTY(bool copyToClipboard READ copyToClipboard WRITE setCopyToClipboard)
   Q_PROPERTY(int grabDelay READ grabDelay WRITE setGrabDelay)
   Q_PROPERTY(QString qrText READ qrText WRITE setQRtext NOTIFY grabDone)
+  Q_PROPERTY(QString clipText READ clipText)
   Q_PROPERTY(QStringList replaceList READ replaceList WRITE setReplaceList)
 
 public:
@@ -50,6 +51,8 @@ public:
 
   QString qrText() { return m_qrText; }
   void setQRtext(const QString& str) { m_qrText = str; }
+
+  QString clipText() { return m_clipText; }
 
   int grabDelay() { return m_grabDelay; }
   void setGrabDelay(int gd) { m_grabDelay = gd; }
@@ -69,7 +72,8 @@ private:
 
 private:
   bool              m_copyToClipB;
-  QString           m_qrText; /**< Currently detected text or info that no QR code was found */
+  QString           m_qrText; /**< Currently detected text or empty */
+  QString           m_clipText; /**< Text copied to clipboard, or empty  */
   int               m_grabDelay;
   QStringList       m_replaceList;
 };
