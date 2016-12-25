@@ -43,6 +43,7 @@ void TgrabQR::grab() {
   if (!screen) {
     qDebug() << "No screen to take screenshot";
     m_qrText.clear();
+    m_clipText.clear();
     return;
   }
 
@@ -64,11 +65,12 @@ void TgrabQR::setReplaceList(QStringList& rl) {
 void TgrabQR::delayedShot() {
   auto screen = QGuiApplication::primaryScreen();
   m_qrText = callZBAR(screen->grabWindow(0));
+  m_clipText.clear();
   if (!m_qrText.isEmpty()) {
       if (m_copyToClipB) {
-        auto cpStr = m_qrText;
-        parseText(cpStr);
-        qApp->clipboard()->setText(cpStr, QClipboard::Clipboard);
+        m_clipText = m_qrText;
+        parseText(m_clipText);
+        qApp->clipboard()->setText(m_clipText, QClipboard::Clipboard);
       }
   }
 

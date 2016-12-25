@@ -103,10 +103,14 @@ Page {
                 qrText.textFormat = Text.RichText
                 qrText.text = "<b><center style=\"color: red; font-size: xx-large\">" + qsTr("No QR code found!") + "</center></b>"
                 adjustButt.visible = false
+                qrRadio.visible = false
+                clipRadio.visible = false
             } else {
                 qrText.textFormat = Text.PlainText
                 qrText.text = str
                 adjustButt.visible = true
+                qrRadio.visible = true
+                clipRadio.visible = true
             }
           }
         }
@@ -120,6 +124,18 @@ Page {
         visible: false
       }
       Item { Layout.fillWidth: true }
+      RadioButton {
+        id: qrRadio
+        text: qsTr("QR text")
+        checked: true
+        visible: false
+      }
+      RadioButton {
+        id: clipRadio
+        text: qsTr("Clipboard text")
+        visible: false
+      }
+      Item { Layout.fillWidth: true }
       Button {
         id: qrabButt
         text: qsTr("GRAB!")
@@ -127,6 +143,16 @@ Page {
           qr.grab()
         }
       }
+    }
+  }
+  ButtonGroup {
+    id: gr
+    buttons: [qrRadio, clipRadio]
+    onCheckedButtonChanged: {
+      if (gr.checkedButton == qrRadio)
+        qrText.text = qr.qrText
+      else
+        qrText.text = qr.clipText
     }
   }
 } 
