@@ -21,6 +21,7 @@
 #define TGRABQR_H
 
 #include <QtCore/QObject>
+#include <QtCore/QMap>
 
 
 class QPixmap;
@@ -39,6 +40,7 @@ class TgrabQR : public QObject
   Q_PROPERTY(int grabDelay READ grabDelay WRITE setGrabDelay)
   Q_PROPERTY(QString qrText READ qrText WRITE setQRtext NOTIFY grabDone)
   Q_PROPERTY(QString clipText READ clipText)
+  Q_PROPERTY(QString replacedText READ replacedText)
   Q_PROPERTY(QStringList replaceList READ replaceList WRITE setReplaceList)
 
 public:
@@ -53,12 +55,15 @@ public:
   void setQRtext(const QString& str) { m_qrText = str; }
 
   QString clipText() { return m_clipText; }
+  QString replacedText() { return m_replacedText; }
 
   int grabDelay() { return m_grabDelay; }
   void setGrabDelay(int gd) { m_grabDelay = gd; }
 
   QStringList replaceList() { return m_replaceList; }
   void setReplaceList(QStringList& rl);
+
+  Q_INVOKABLE void setCells(const QList<int>& l);
 
 signals:
   void grabDone();
@@ -73,9 +78,11 @@ private:
 private:
   bool              m_copyToClipB;
   QString           m_qrText; /**< Currently detected text or empty */
+  QString           m_replacedText; /** Text from QR replaced with strings from @p m_replaceList */
   QString           m_clipText; /**< Text copied to clipboard, or empty  */
   int               m_grabDelay;
   QStringList       m_replaceList;
+  QMap<int, int>    m_cellsMap;
 };
 
 #endif // TGRABQR_H
