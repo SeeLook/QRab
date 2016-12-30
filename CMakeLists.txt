@@ -15,9 +15,64 @@ else()
     message(SEND_ERROR "The Qt5Gui library could not be found!")
 endif(Qt5Gui_FOUND)
 
+
 find_package(Qt5Qml REQUIRED)
 find_package(Qt5Quick REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
+
+
+# Looking for zbar
+if(ZBAR_LIBRARIES AND ZBAR_INCLUDE_DIRS)
+    set(ZBAR_FOUND TRUE)
+else(ZBAR_LIBRARIES AND ZBAR_INCLUDE_DIRS)
+    find_path(ZBAR_INCLUDE_DIR
+          NAMES
+            zbar.h
+          PATHS
+            /usr/include
+            /usr/local/include
+            /opt/local/include
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}../zbar/include
+            ${CMAKE_BINARY_DIR}/../zbar/include
+        )
+
+    find_library(ZBAR_LIBRARY
+          NAMES
+            zbar
+          PATHS
+            /usr/lib
+            /usr/lib64
+            /usr/local/lib
+            /opt/local/lib
+            /sw/lib
+            ${CMAKE_BINARY_DIR}/../zbar
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}../zbar
+    )
+
+    set(ZBAR_INCLUDE_DIRS
+      ${ZBAR_INCLUDE_DIR}
+    )
+    set(ZBAR_LIBRARIES
+      ${ZBAR_LIBRARY}
+    )
+
+    if(ZBAR_INCLUDE_DIRS AND ZBAR_LIBRARIES)
+      set(ZBAR_FOUND TRUE)
+    endif(ZBAR_INCLUDE_DIRS AND ZBAR_LIBRARIES)
+
+    if(ZBAR_FOUND)
+        message(STATUS "ZBAR library was found in: ${ZBAR_LIBRARIES}, its headers are in: ${ZBAR_INCLUDE_DIRS}")
+        if(WIN32)
+          include_directories( ${ZBAR_INCLUDE_DIRS} )
+        endif(WIN32)
+    else(ZBAR_FOUND)
+        message(FATAL_ERROR "Could not find zbar\nTry call cmake with args:\n-DZBAR_LIBRARIES=/path_to/libzbar.la(dll) -DZBAR_INCLUDE_DIRS=/path_to_dir_with/include/zbar.h\nor put those files into zbar directory on the level of sources")
+    endif(ZBAR_FOUND)
+
+endif(ZBAR_LIBRARIES AND ZBAR_INCLUDE_DIRS)
+
 
 set(qrab_SRC
   src/main.cpp
@@ -46,6 +101,7 @@ target_link_libraries(qrab
     Qt5::Qml
     Qt5::Quick
     Qt5::QuickControls2
+    ${ZBAR_LIBRARY}
 )
 
 if(UNIX AND NOT APPLE)
