@@ -76,11 +76,11 @@ void TgrabQR::setCells(const QList<int>& l) {
         m_cellsMap[l[i] - 1] = i;
     }
     // TODO: below code is for debug only
-    QMap<int, int>::iterator i;
-    for (i = m_cellsMap.begin(); i != m_cellsMap.end(); ++i) {
-      int k = i.key();
-      qDebug() << k << toCell(k) << m_cellsMap[k];
-    }
+//     QMap<int, int>::iterator i;
+//     for (i = m_cellsMap.begin(); i != m_cellsMap.end(); ++i) {
+//       int k = i.key();
+//       qDebug() << k << toCell(k) << m_cellsMap[k];
+//     }
   }
 }
 
@@ -158,7 +158,6 @@ void TgrabQR::parseText(QString& str) {
 
   QString tab = QStringLiteral("\t");
   if (!m_cellsMap.isEmpty() && str.contains(tab)) {
-    qDebug() << "Adjusting spreadsheet";
     int lastKey = 0;
     QStringList chunks = str.split(tab);
     QString sheetText;
@@ -175,7 +174,6 @@ void TgrabQR::parseText(QString& str) {
       lastKey = k;
     }
     str = sheetText;
-    qDebug() << sheetText;
   }
 }
 

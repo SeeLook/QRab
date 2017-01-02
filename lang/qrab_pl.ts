@@ -1,35 +1,35 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS sourcelanguage="pl" version="2.1" language="pl_PL">
+<TS version="2.1" language="pl_PL" sourcelanguage="pl">
 <context>
     <name>AboutPage</name>
     <message>
-        <location line="61" filename="../src/qml/AboutPage.qml"/>
+        <location filename="../src/qml/AboutPage.qml" line="61"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
     <message>
-        <location line="91" filename="../src/qml/AboutPage.qml"/>
+        <location filename="../src/qml/AboutPage.qml" line="91"/>
         <source>Grabs QR code contexts from your screen</source>
         <translation>Przechwyca zawartość kodu QR z twojego ekranu</translation>
     </message>
     <message>
-        <location line="96" filename="../src/qml/AboutPage.qml"/>
+        <location filename="../src/qml/AboutPage.qml" line="96"/>
         <source>Author:</source>
         <translation>Autor:</translation>
     </message>
     <message>
-        <location line="103" filename="../src/qml/AboutPage.qml"/>
+        <location filename="../src/qml/AboutPage.qml" line="103"/>
         <source>On the terms of GNU GPLv3 license.</source>
         <translation>Na warunkach licencji GNU GPLv3.</translation>
     </message>
     <message>
-        <location line="107" filename="../src/qml/AboutPage.qml"/>
-        <source>QRab uses %1 to handle QR codes.&lt;br>Zbar is delivering on GNU LGPLv2.1 license.</source>
-        <translation>QRab używa %1 do obsługi QR kodów.&lt;br>Zbar jest rozpowszechniany na licencji GNU LGPLv2.1</translation>
+        <location filename="../src/qml/AboutPage.qml" line="107"/>
+        <source>QRab uses %1 to handle QR codes.&lt;br&gt;Zbar is delivering on GNU LGPLv2.1 license.</source>
+        <translation>QRab używa %1 do obsługi QR kodów.&lt;br&gt;Zbar jest rozpowszechniany na licencji GNU LGPLv2.1</translation>
     </message>
     <message>
-        <location line="122" filename="../src/qml/AboutPage.qml"/>
+        <location filename="../src/qml/AboutPage.qml" line="122"/>
         <source>QRab
 Copyright (C) 2016  Tomasz Bojczuk
 This program is free software; you can redistribute it and/or modify
@@ -64,45 +64,82 @@ Place, Fifth Floor, Boston, MA  02110-1301  USA</translation>
     </message>
 </context>
 <context>
-    <name>GrabPage</name>
+    <name>AdjustDialog</name>
     <message>
-        <location line="55" filename="../src/qml/GrabPage.qml"/>
-        <source>Settings</source>
-        <translation>Ustawienia</translation>
-    </message>
-    <message>
-        <location line="90" filename="../src/qml/GrabPage.qml"/>
-        <source>Put any QR code on a screen,&lt;br>then hit GRAB! button</source>
-        <translation>Umieść kod QR na ekranie,&lt;br>a następnie wciśnij przycisk ŁAP!</translation>
-    </message>
-    <message>
-        <location line="104" filename="../src/qml/GrabPage.qml"/>
-        <source>No QR code found!</source>
-        <translation>Nie znaleziono kodu QR!</translation>
-    </message>
-    <message>
-        <location line="123" filename="../src/qml/GrabPage.qml"/>
+        <location filename="../src/qml/AdjustDialog.qml" line="29"/>
         <source>Adjust sheet</source>
         <translation>Dopasuj arkusz</translation>
     </message>
     <message>
-        <location line="129" filename="../src/qml/GrabPage.qml"/>
+        <location filename="../src/qml/AdjustDialog.qml" line="114"/>
+        <source>Reset</source>
+        <translation>Wyzeruj</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/AdjustDialog.qml" line="125"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/AdjustDialog.qml" line="130"/>
+        <source>Apply</source>
+        <translation>Zastosuj</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/AdjustDialog.qml" line="161"/>
+        <source>Multiple columns with the same letter!</source>
+        <translation>Wile kolumn z tą samą literą!</translation>
+    </message>
+</context>
+<context>
+    <name>GrabPage</name>
+    <message>
+        <location filename="../src/qml/GrabPage.qml" line="58"/>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/GrabPage.qml" line="93"/>
+        <source>Put any QR code on a screen,&lt;br&gt;then hit GRAB! button</source>
+        <translation>Umieść kod QR na ekranie,&lt;br&gt;a następnie wciśnij przycisk ŁAP!</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/GrabPage.qml" line="107"/>
+        <source>No QR code found!</source>
+        <translation>Nie znaleziono kodu QR!</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/GrabPage.qml" line="126"/>
+        <source>Adjust sheet</source>
+        <translation>Dopasuj arkusz</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/GrabPage.qml" line="146"/>
         <source>QR text</source>
         <translation>Tekst QR kodu</translation>
     </message>
     <message>
-        <location line="135" filename="../src/qml/GrabPage.qml"/>
+        <location filename="../src/qml/GrabPage.qml" line="152"/>
         <source>Clipboard text</source>
         <translation>Tekst schowka</translation>
     </message>
     <message>
-        <location line="55" filename="../src/qml/AboutPage.qml"/>
-        <location line="63" filename="../src/qml/GrabPage.qml"/>
+        <location filename="../src/qml/GrabPage.qml" line="182"/>
+        <source>There is no tabulators in the text.
+It can not be split into spreadsheet columns.
+To add tabulators, you may use find-&gt;replace settings.</source>
+        <translation>W tekście nie ma znaków tabulacji,
+więc nie można go podzielić na kolumny arkusza.
+Żeby dodać tabulatory można użyć znajdź-&gt;zamień w ustawieniach.</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/AboutPage.qml" line="55"/>
+        <location filename="../src/qml/GrabPage.qml" line="66"/>
         <source>About</source>
         <translation>O...</translation>
     </message>
     <message>
-        <location line="141" filename="../src/qml/GrabPage.qml"/>
+        <location filename="../src/qml/GrabPage.qml" line="158"/>
         <source>GRAB!</source>
         <translation>ŁAP!</translation>
     </message>
@@ -110,13 +147,13 @@ Place, Fifth Floor, Boston, MA  02110-1301  USA</translation>
 <context>
     <name>Qt</name>
     <message>
-        <location line="153" filename="../src/qml/AboutPage.qml"/>
-        <location line="95" filename="../src/qml/SettingsPage.qml"/>
+        <location filename="../src/qml/AboutPage.qml" line="153"/>
+        <location filename="../src/qml/SettingsPage.qml" line="94"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="106" filename="../src/qml/SettingsPage.qml"/>
+        <location filename="../src/qml/SettingsPage.qml" line="105"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
@@ -124,12 +161,12 @@ Place, Fifth Floor, Boston, MA  02110-1301  USA</translation>
 <context>
     <name>ReplaceList</name>
     <message>
-        <location line="79" filename="../src/qml/ReplaceList.qml"/>
+        <location filename="../src/qml/ReplaceList.qml" line="79"/>
         <source>before</source>
         <translation>przed</translation>
     </message>
     <message>
-        <location line="88" filename="../src/qml/ReplaceList.qml"/>
+        <location filename="../src/qml/ReplaceList.qml" line="88"/>
         <source>after</source>
         <translation>po</translation>
     </message>
@@ -137,22 +174,22 @@ Place, Fifth Floor, Boston, MA  02110-1301  USA</translation>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location line="51" filename="../src/qml/SettingsPage.qml"/>
+        <location filename="../src/qml/SettingsPage.qml" line="51"/>
         <source>Copy QR text to clipboard</source>
         <translation>Kopiuj text z QR do schowka</translation>
     </message>
     <message>
-        <location line="64" filename="../src/qml/SettingsPage.qml"/>
+        <location filename="../src/qml/SettingsPage.qml" line="64"/>
         <source>Grab delay</source>
         <translation>Opóżnienie</translation>
     </message>
     <message>
-        <location line="74" filename="../src/qml/SettingsPage.qml"/>
+        <location filename="../src/qml/SettingsPage.qml" line="74"/>
         <source>Replace QR text</source>
         <translation>Zamień tekst QR</translation>
     </message>
     <message>
-        <location line="58" filename="../src/qml/SettingsPage.qml"/>
+        <location filename="../src/qml/SettingsPage.qml" line="58"/>
         <source>Keep QRab window on top</source>
         <translation>Pozostaw okno QRab na wierzchu</translation>
     </message>

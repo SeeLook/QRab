@@ -16,10 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.2
 
 import TgrabQR 1.0
 import QRab.settings 1.0
@@ -35,7 +35,10 @@ Page {
 
   TgrabQR {
     id: qr
-    Component.onCompleted: grabPage.acceptSettings()
+    Component.onCompleted: {
+      grabPage.acceptSettings()
+      qr.setCells(QRabSettings.cells)
+    }
   }
 
   function acceptSettings() {
@@ -122,6 +125,20 @@ Page {
         id: adjustButt
         text: qsTr("Adjust sheet")
         visible: false
+        onClicked: {
+          var c = Qt.createComponent("qrc:/AdjustDialog.qml")
+          var a = c.createObject(grabPage)
+          if (a.loadQRtext(qr.replacedText, QRabSettings.cells))
+              a.adjusted.connect(adjustAccepted)
+          else {
+              noTabMess.open()
+              a.destroy()
+          }
+        }
+        function adjustAccepted(keyList) {
+          qr.setCells(keyList)
+          QRabSettings.cells = keyList
+        }
       }
       Item { Layout.fillWidth: true }
       RadioButton {
@@ -145,14 +162,29 @@ Page {
       }
     }
   }
+
   ButtonGroup {
     id: gr
     buttons: [qrRadio, clipRadio]
     onCheckedButtonChanged: {
-      if (gr.checkedButton == qrRadio)
-        qrText.text = qr.qrText
-      else
-        qrText.text = qr.clipText
+      if (adjustButt.visible) { // ignore when no QR text was found or at very beginning
+        if (gr.checkedButton == qrRadio)
+          qrText.text = qr.qrText
+        else
+          qrText.text = qr.clipText
+      }
     }
   }
-} 
+
+  MessageDialog {
+    id: noTabMess
+    title: "QRab"
+    text: qsTr("There is no tabulators in the text.
+It can not be split into spreadsheet columns.
+To add tabulators, you may use find->replace settings.")
+  }
+}
+
+
+
+

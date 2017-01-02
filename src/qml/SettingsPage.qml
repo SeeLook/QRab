@@ -78,8 +78,7 @@ Page {
               id: replaceList
               replaceTexts: QRabSettings.replaceList
 //               interactive: false
-              anchors {
-                horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; left: parent.left; }
+              anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; left: parent.left; }
               Layout.fillWidth: true
               Layout.fillHeight: true
             }
