@@ -57,7 +57,7 @@ ListView {
       return "\n"
     if (s == "\\t")
       return "\t"
-    return s;
+    return s
   }
 
 

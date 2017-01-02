@@ -33,9 +33,15 @@ Item {
   property bool keepOnTop
   property var replaceList
   property string concatList
+  property var cells
+  property string concatCells
   default property string splitString: "&|$"
 
   onConcatListChanged: replaceList = concatList.split(splitString)
+  onConcatCellsChanged: {
+    if (concatCells !== "")
+      cells =  concatCells.split(splitString)
+  }
 
   Settings {
     id: settings
@@ -44,6 +50,7 @@ Item {
     property bool keepOnTop: true
     property int grabDelay: 100
     property var concatList: "\n" + splitString + "\t"
+    property string concatCells: ""
   }
 
   Component.onCompleted: {
@@ -51,6 +58,7 @@ Item {
     copyToClipboard = settings.copyToClipboard
     keepOnTop = settings.keepOnTop
     concatList = settings.concatList
+    concatCells = settings.concatCells
   }
 
   Component.onDestruction: {
@@ -59,6 +67,8 @@ Item {
     settings.keepOnTop = keepOnTop
     if (replaceList)
       settings.concatList = replaceList.join(splitString)
+    if (cells)
+      settings.concatCells = cells.join(splitString)
   }
 }
 

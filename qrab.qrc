@@ -9,6 +9,7 @@
     <file alias="QRabSettings.qml">src/qml/QRabSettings.qml</file>
     <file alias="NavItem.qml">src/qml/NavItem.qml</file>
     <file alias="ReplaceList.qml">src/qml/ReplaceList.qml</file>
+    <file alias="AdjustDialog.qml">src/qml/AdjustDialog.qml</file>
 
     <!-- Icons -->
     <file>icons/qrab.png</file>
