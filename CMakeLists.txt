@@ -21,6 +21,11 @@ find_package(Qt5Quick REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
 
 
+set(QRAB_VERSION_MAJOR  "0")
+set(QRAB_VERSION_MINOR  "3")
+set(QRAB_VERSION "${QRAB_VERSION_MAJOR}.${QRAB_VERSION_MINOR}")
+
+
 # Looking for zbar
 if(ZBAR_LIBRARIES AND ZBAR_INCLUDE_DIRS)
     set(ZBAR_FOUND TRUE)
@@ -64,14 +69,22 @@ else(ZBAR_LIBRARIES AND ZBAR_INCLUDE_DIRS)
 
     if(ZBAR_FOUND)
         message(STATUS "ZBAR library was found in: ${ZBAR_LIBRARIES}, its headers are in: ${ZBAR_INCLUDE_DIRS}")
-        if(WIN32)
+        if(WIN32 OR APPLE)
           include_directories( ${ZBAR_INCLUDE_DIRS} )
-        endif(WIN32)
+        endif(WIN32 OR APPLE)
     else(ZBAR_FOUND)
         message(FATAL_ERROR "Could not find zbar\nTry call cmake with args:\n-DZBAR_LIBRARIES=/path_to/libzbar.la(dll) -DZBAR_INCLUDE_DIRS=/path_to_dir_with/include/zbar.h\nor put those files into zbar directory on the level of sources")
     endif(ZBAR_FOUND)
 
 endif(ZBAR_LIBRARIES AND ZBAR_INCLUDE_DIRS)
+
+
+if (APPLE) # Mac RPath
+  set(CMAKE_MACOSX_RPATH 1)
+  set(CMAKE_INSTALL_RPATH "@loader_path/../Frameworks")
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif (APPLE)
+
 
 
 set(qrab_SRC
@@ -115,7 +128,7 @@ else()
     install(TARGETS qrab DESTINATION .)
     add_custom_target(deploy
       COMMAND echo "deploying..."
-      COMMAND ${QT_BINARY_DIR}/windeployqt.exe --release --no-translations --no-svg --qmldir "${CMAKE_SOURCE_DIR}/src/qml"  "${CMAKE_INSTALL_PREFIX}/qrab.exe"
+      COMMAND ${QT_BINARY_DIR}/windeployqt.exe --release --no-translations --no-svg --no-widgets --qmldir "${CMAKE_SOURCE_DIR}/src/qml"  "${CMAKE_INSTALL_PREFIX}/qrab.exe"
     )
   else()
     install(TARGETS qrab DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents/MacOs")
@@ -124,10 +137,20 @@ else()
     add_custom_target(deploy
       COMMAND echo "deploying..."
       COMMAND echo ${QT_BINARY_DIR}/../../bin
-      COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/qrab.app
+      COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/qrab.app -qmldir="${CMAKE_SOURCE_DIR}/src/qml"
     )
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
+
+
+if(UNIX AND NOT APPLE)
+    message(STATUS "
+    To build source package, call:
+    make src
+    ")
+    add_custom_target(src COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/make-src.sh ${QRAB_VERSION} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR})
+ENDIF(UNIX AND NOT APPLE)
+
 
 
 configure_file(
