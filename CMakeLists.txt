@@ -95,7 +95,7 @@ set(qrab_SRC
 
 if(MINGW)
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qrabico.o
-                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../icons/qrab-icon.rc
+                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/icons/qrab-icon.rc
                             -o ${CMAKE_CURRENT_BINARY_DIR}/qrabico.o )
     set(qrab_SRCS ${qrab_SRC} ${CMAKE_CURRENT_BINARY_DIR}/qrabico.o)
     set(qrab_EXE_ICON qrabico.o)
