@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -80,7 +80,7 @@ Page {
             }
             ColumnLayout {
               Text {
-                text: "  QRab 0.3"
+                text: "  QRab 0.4"
                 font.bold: true
                 Component.onCompleted: font.pixelSize = font.pixelSize * 2
               }
@@ -105,6 +105,11 @@ Page {
           }
           LinkText {
             text: qsTr("QRab uses %1 to handle QR codes.<br>Zbar is delivering on GNU LGPLv2.1 license.").arg("<b><a href=\"http://zbar.sf.net\">zbar</a></b>")
+            anchors.horizontalCenter: parent.horizontalCenter
+            horizontalAlignment: Text.AlignHCenter
+          }
+          LinkText {
+            text: qsTr("This program uses <b><a href=\"http://qt.io\">Qt framework</a></b>")
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
           }
