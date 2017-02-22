@@ -29,7 +29,12 @@
         <translation>QRab używa %1 do obsługi QR kodów.&lt;br&gt;Zbar jest rozpowszechniany na licencji GNU LGPLv2.1</translation>
     </message>
     <message>
-        <location filename="../src/qml/AboutPage.qml" line="122"/>
+        <location filename="../src/qml/AboutPage.qml" line="112"/>
+        <source>This program uses &lt;b&gt;&lt;a href=&quot;http://qt.io&quot;&gt;Qt framework&lt;/a&gt;&lt;/b&gt;</source>
+        <translation>Ten program używa &lt;b&gt;&lt;a href=&quot;http://qt.io&quot;&gt;modelu Qt&lt;/a&gt;&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/AboutPage.qml" line="127"/>
         <source>QRab
 Copyright (C) 2016  Tomasz Bojczuk
 This program is free software; you can redistribute it and/or modify
@@ -147,7 +152,7 @@ więc nie można go podzielić na kolumny arkusza.
 <context>
     <name>Qt</name>
     <message>
-        <location filename="../src/qml/AboutPage.qml" line="153"/>
+        <location filename="../src/qml/AboutPage.qml" line="158"/>
         <location filename="../src/qml/SettingsPage.qml" line="94"/>
         <source>OK</source>
         <translation>OK</translation>

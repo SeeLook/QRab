@@ -24,6 +24,7 @@ cp -r $SRC_DIR/lang $DST_DIR
 cp -r $SRC_DIR/icons $DST_DIR
 cp -r $SRC_DIR/src $DST_DIR
 cp $SRC_DIR/CMakeLists.txt $DST_DIR
+cp $SRC_DIR/qrab.qrc $DST_DIR
 cp $SRC_DIR/copyright $DST_DIR
 cp $SRC_DIR/README.md $DST_DIR
 cp $SRC_DIR/cmake_uninstall.cmake.in $DST_DIR

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -24,7 +24,6 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
 #include <QtQml/QQmlApplicationEngine>
-// #include <QtQuickControls2/QQuickStyle>
 
 
 int main(int argc, char *argv[])
@@ -40,7 +39,7 @@ int main(int argc, char *argv[])
 // Loading translations
   QTranslator qrabTranslator;
 
-#if defined (Q_OS_MAC)
+#if defined (Q_OS_MAC) || defined (Q_OS_WIN)
   QLocale loc(QLocale::system().uiLanguages().first());
 #else
   QLocale loc(qgetenv("LANG"));
