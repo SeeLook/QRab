@@ -33,7 +33,7 @@ jobs:
           make deploy
           make dmg
           cp installs/QRab*.dmg ../
-          cd..
+          cd ..
 
       - name: Create Release
         id: create_release
