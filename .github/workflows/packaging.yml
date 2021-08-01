@@ -2,8 +2,7 @@ name:                 packaging
 
 on:
   push:
-    branches:
-      - main
+    push: {branches: main}
 
 jobs:
   macos_dmg:
