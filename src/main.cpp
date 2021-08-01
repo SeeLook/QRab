@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,10 +24,15 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
 #include <QtQml/QQmlApplicationEngine>
+#include <QtCore/QLoggingCategory>
 
 
 int main(int argc, char *argv[])
 {
+  // It mutes QML warnings about connections syntax introduced in Qt 5.15
+  // TODO when Qt version requirements will rise to 5.15 or above, change syntax and remove that
+  QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.connections=false"));
+
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication a(argc, argv);
 
