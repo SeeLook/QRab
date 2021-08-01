@@ -1,8 +1,9 @@
 name:                 packaging
 
-push:
-  branches:
-    - main
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   macos_dmg:
