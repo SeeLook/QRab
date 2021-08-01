@@ -15,7 +15,8 @@ jobs:
 
       - name: Set variables
         run: |
-          echo "QRAB_VERSION=$(cat src/qrabconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')" >> $GITHUB_ENV
+          VER=$(cat src/qrabconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
+          echo "QRAB_VERSION=$VER" >> $GITHUB_ENV
           echo "${{ env.QRAB_VERSION }}"
 
       - name: Install zbar
