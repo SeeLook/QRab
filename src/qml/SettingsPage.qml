@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -64,7 +64,7 @@ Page {
             Text { text: qsTr("Grab delay") }
             SpinBox {
               id: delaySpinBox
-              value: QRabSettings.grabDelay
+              value: GLOB.grabDelay
               from: 0
               to: 2000
               stepSize: 100
@@ -95,7 +95,7 @@ Page {
         onClicked: {
           replaceList.save()
           QRabSettings.copyToClipboard = copyCheckBox.checked
-          QRabSettings.grabDelay = delaySpinBox.value
+          GLOB.grabDelay = delaySpinBox.value
           QRabSettings.keepOnTop = keepCheckBox.checked
           QRabSettings.replaceList = replaceList.replaceTexts
           settingsPage.exit(true)

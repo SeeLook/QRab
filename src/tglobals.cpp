@@ -49,6 +49,10 @@ Tglobals::Tglobals(QObject* parent) :
     m_geometry.setWidth(qApp->primaryScreen()->size().width() / 3);
     m_geometry.setHeight(qApp->primaryScreen()->size().height() / 3);
   }
+
+  m_config->beginGroup(QLatin1String("QRab"));
+    m_grabDelay = m_config->value(QStringLiteral("grabDelay"), 100).toInt();
+  m_config->endGroup();
 }
 
 
@@ -56,6 +60,17 @@ Tglobals::~Tglobals()
 {
   m_config->setValue(QStringLiteral("geometry"), m_geometry);
 
+  m_config->beginGroup(QLatin1String("QRab"));
+    m_config->setValue(QStringLiteral("grabDelay"), m_grabDelay);
+  m_config->endGroup();
+
   m_instance = nullptr;
 }
 
+
+void Tglobals::setGrabDelay(int gd) {
+  if (gd != m_grabDelay) {
+    m_grabDelay = gd;
+    emit grabDelayChanged();
+  }
+}

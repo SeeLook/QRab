@@ -38,6 +38,7 @@ class Tglobals : public QObject
   Q_OBJECT
 
   Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY dummySignal)
+  Q_PROPERTY(int grabDelay READ grabDelay WRITE setGrabDelay NOTIFY grabDelayChanged)
 
 public:
   Tglobals(QObject* parent = nullptr);
@@ -48,8 +49,12 @@ public:
   QRect geometry() const { return m_geometry; }
   void setGeometry(const QRect& g) { m_geometry = g; }
 
+  int grabDelay() const { return m_grabDelay; }
+  void setGrabDelay(int gd);
+
 signals:
   void dummySignal();
+  void grabDelayChanged();
 
 private:
   static Tglobals            *m_instance;
@@ -57,6 +62,7 @@ private:
   QSettings                  *m_config;
 
   QRect                       m_geometry;
+  int                         m_grabDelay;
 
 };
 

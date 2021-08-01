@@ -45,7 +45,6 @@ Page {
 
   function acceptSettings() {
     qr.copyToClipboard = QRabSettings.copyToClipboard
-    qr.grabDelay = QRabSettings.grabDelay
     if (QRabSettings.replaceList)
       qr.replaceList = QRabSettings.replaceList
   }

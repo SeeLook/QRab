@@ -18,6 +18,8 @@
 
 #include "tgrabqr.h"
 #include "qrabconfig.h"
+#include "tglobals.h"
+
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
@@ -41,8 +43,7 @@ QString toCell(int nr) {
 
 TgrabQR::TgrabQR(QObject* parent) :
   QObject(parent),
-  m_copyToClipB(true),
-  m_grabDelay(100)
+  m_copyToClipB(true)
 {
   qDebug() << "QRab version" << version();
 }
@@ -62,7 +63,7 @@ void TgrabQR::grab() {
   if (qApp->allWindows().size())
     qApp->allWindows().first()->hide();
 
-  QTimer::singleShot(m_grabDelay, [=]{ delayedShot(); });
+  QTimer::singleShot(GLOB->grabDelay(), [=]{ delayedShot(); });
 }
 
 

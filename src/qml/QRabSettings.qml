@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,7 +28,6 @@ import Qt.labs.settings 1.0
  * Magic separator for it is defined in @p splitString "&|$"
  */
 Item {
-  property int grabDelay
   property bool copyToClipboard
   property bool keepOnTop
   property var replaceList
@@ -48,13 +47,11 @@ Item {
     category: "QRab"
     property bool copyToClipboard: true
     property bool keepOnTop: true
-    property int grabDelay: 100
     property var concatList: "\n" + splitString + "\t"
     property string concatCells: ""
   }
 
   Component.onCompleted: {
-    grabDelay = settings.grabDelay
     copyToClipboard = settings.copyToClipboard
     keepOnTop = settings.keepOnTop
     concatList = settings.concatList
@@ -62,7 +59,6 @@ Item {
   }
 
   Component.onDestruction: {
-    settings.grabDelay = grabDelay
     settings.copyToClipboard = copyToClipboard
     settings.keepOnTop = keepOnTop
     if (replaceList)

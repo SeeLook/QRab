@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
   logFile = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).first() + QLatin1String("/qrab-log.txt");
   if (QFile::exists(logFile))
     QFile::remove(logFile);
-//   qInstallMessageHandler(myMessageOutput);
+  qInstallMessageHandler(myMessageOutput);
   qDebug() << "==== QRab LOG =======\n" << QDateTime::currentDateTime().toString();
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
