@@ -15,9 +15,9 @@ jobs:
 
       - name: Install zbar
         run: |
-          brew update
+          #brew update
           brew install zbar
-          brew upgrade
+          #brew upgrade
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -53,4 +53,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./installs/QRab*.dmg
           asset_name: QRab_${{ github.ref }}.dmg
-          #asset_content_type: application/zip
+          asset_content_type: application/x-apple-diskimage
