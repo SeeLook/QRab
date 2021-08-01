@@ -139,14 +139,18 @@ else()
       COMMAND echo ${QT_BINARY_DIR}/../../bin
       COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/qrab.app -qmldir="${CMAKE_SOURCE_DIR}/src/qml"
     )
+    add_custom_target(dmg
+      COMMAND echo "creating dmg image..."
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/create-dmg.sh ${QRAB_VERSION} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX}
+    )
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
 
 if(UNIX AND NOT APPLE)
     message(STATUS "
-    To build source package, call:
-    make src
+      To build source package, call:
+      make src
     ")
     add_custom_target(src COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/make-src.sh ${QRAB_VERSION} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 ENDIF(UNIX AND NOT APPLE)
