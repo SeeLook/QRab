@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -120,12 +120,13 @@ QString TgrabQR::callZBAR(const QPixmap& pix) {
     zbar::Image zbarImage;
     zbarImage.set_size(width, height);
     zbarImage.set_format('B' | ('G' << 8) | ('R' << 16) | ('4' << 24));
-    unsigned long datalen = qImage.byteCount();
+    unsigned long datalen = qImage.sizeInBytes();
     zbarImage.set_data(qImage.bits(), datalen);
     zbar::Image imgToScan = zbarImage.convert(*(long*)"Y800");
 
     zbar::ImageScanner scanner;
-    scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
+    scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 0); // disable all first
+    scanner.set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1); // enable only QR codes
     scanner.scan(imgToScan);
     zbar::SymbolSet symbol = scanner.get_results();
     if (symbol.get_size() == 0) // No scanned data found in pixmap
