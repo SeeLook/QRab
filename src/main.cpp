@@ -17,6 +17,8 @@
  ***************************************************************************/
 
 #include "tgrabqr.h"
+#include "tglobals.h"
+
 #include <QtCore/QTranslator>
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QDir>
@@ -24,6 +26,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QIcon>
 #include <QtQml/QQmlApplicationEngine>
+#include <QtQml/QQmlContext>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QLoggingCategory>
 
@@ -50,7 +53,7 @@ int main(int argc, char *argv[])
   logFile = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).first() + QLatin1String("/qrab-log.txt");
   if (QFile::exists(logFile))
     QFile::remove(logFile);
-  qInstallMessageHandler(myMessageOutput);
+//   qInstallMessageHandler(myMessageOutput);
   qDebug() << "==== QRab LOG =======\n" << QDateTime::currentDateTime().toString();
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -58,8 +61,11 @@ int main(int argc, char *argv[])
 
   QCoreApplication::setOrganizationName("QRab");
   QCoreApplication::setOrganizationDomain("qrab.sf.net");
+  QCoreApplication::setApplicationName(QStringLiteral("qrab"));
 
   a.setWindowIcon(QIcon(QStringLiteral(":/icons/qrab.png")));
+
+  auto gl = new Tglobals();
 
 // Loading translations
   QTranslator qrabTranslator;
@@ -80,9 +86,15 @@ int main(int argc, char *argv[])
 
 //   QQuickStyle::setStyle(QStringLiteral("Material"));
 
-  QQmlApplicationEngine engine;
-  engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
+  auto engine = new QQmlApplicationEngine();
+  engine->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
+  engine->load(QUrl(QStringLiteral("qrc:/Main.qml")));
 
-  return a.exec();
+  int exCode = a.exec();
+
+  delete engine;
+  delete gl;
+
+  return exCode;
 }
 

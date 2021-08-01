@@ -94,6 +94,7 @@ endif (APPLE)
 
 set(qrab_SRC
   src/main.cpp
+  src/tglobals.cpp
   src/tgrabqr.cpp
 )
 

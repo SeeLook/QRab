@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
-import Qt.labs.settings 1.0
+//import Qt.labs.settings 1.0
 
 import QRab.settings 1.0
 
@@ -33,10 +33,10 @@ ApplicationWindow {
 
   property string titleText: "QRab"
 
-  x: settings.x
-  y: settings.y
-  width: settings.w
-  height: settings.h
+  width: GLOB.geometry.width
+  height: GLOB.geometry.height
+  x: GLOB.geometry.x
+  y: GLOB.geometry.y
 
   SwipeView {
     id: swipeView
@@ -67,23 +67,11 @@ ApplicationWindow {
     }
   }
 
-  Settings {
-    id: settings
-    category: "Geometry"
-    property int x: 1
-    property int y: Screen.desktopAvailableHeight * 0.66
-    property int w: Screen.desktopAvailableWidth / 3
-    property int h: Screen.desktopAvailableHeight / 3
-  }
-
   Component.onCompleted: {
     qrabWindow.flags = QRabSettings.keepOnTop ? qrabWindow.flags | Qt.WindowStaysOnTopHint : qrabWindow.flags
   }
 
-  Component.onDestruction: {
-    settings.x = qrabWindow.x
-    settings.y = qrabWindow.y
-    settings.w = qrabWindow.width
-    settings.h = qrabWindow.height
+  onClosing: {
+    GLOB.geometry = Qt.rect(x ,y, width, height)
   }
 }
