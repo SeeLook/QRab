@@ -22,8 +22,13 @@ find_package(Qt5QuickControls2 REQUIRED)
 
 
 set(QRAB_VERSION_MAJOR  "0")
-set(QRAB_VERSION_MINOR  "4")
+set(QRAB_VERSION_MINOR  "5-alpha1")
 set(QRAB_VERSION "${QRAB_VERSION_MAJOR}.${QRAB_VERSION_MINOR}")
+
+if (UNIX AND NOT APPLE) # config with version number is generated once on developer platform
+  configure_file(${CMAKE_SOURCE_DIR}/src/qrabconfig.h.in ${CMAKE_SOURCE_DIR}/src/qrabconfig.h)
+endif (UNIX AND NOT APPLE)
+
 
 
 # Looking for zbar

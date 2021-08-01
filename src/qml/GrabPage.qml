@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,7 @@ Page {
   id: grabPage
 
   property real defaultSpacing: 10
+  property string version: qr.version()
 
   signal settingsOn()
   signal aboutOn()

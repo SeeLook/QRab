@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016=2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -64,6 +64,8 @@ public:
   void setReplaceList(QStringList& rl);
 
   Q_INVOKABLE void setCells(const QList<int>& l);
+
+  Q_INVOKABLE QString version() const;
 
 signals:
   void grabDone();

@@ -17,12 +17,14 @@
  ***************************************************************************/
 
 #include "tgrabqr.h"
+#include "qrabconfig.h"
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
 #include <QtGui/QWindow>
 #include <QtGui/QPixmap>
 #include <QtGui/QClipboard>
 #include <QtCore/QTimer>
+
 #include <QtCore/QDebug>
 
 #include <zbar.h>
@@ -42,6 +44,7 @@ TgrabQR::TgrabQR(QObject* parent) :
   m_copyToClipB(true),
   m_grabDelay(100)
 {
+  qDebug() << "QRab version" << version();
 }
 
 
@@ -82,6 +85,11 @@ void TgrabQR::setCells(const QList<int>& l) {
 //       qDebug() << k << toCell(k) << m_cellsMap[k];
 //     }
   }
+}
+
+
+QString TgrabQR::version() const {
+  return QStringLiteral(QRAB_VERSION);
 }
 
 

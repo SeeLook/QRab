@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -80,7 +80,7 @@ Page {
             }
             ColumnLayout {
               Text {
-                text: "  QRab 0.4"
+                text: "  QRab " + grabPage.version
                 font.bold: true
                 Component.onCompleted: font.pixelSize = font.pixelSize * 2
               }
