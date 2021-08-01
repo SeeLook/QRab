@@ -38,7 +38,8 @@ Page {
     id: qr
     Component.onCompleted: {
       grabPage.acceptSettings()
-      qr.setCells(QRabSettings.cells)
+      if (QRabSettings.cells)
+        qr.setCells(QRabSettings.cells)
     }
   }
 
