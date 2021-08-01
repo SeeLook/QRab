@@ -1,0 +1,56 @@
+name:                 packaging
+
+push:
+  branches:
+    - main
+
+jobs:
+  macos_dmg:
+    name:           Build MacOs dmg image
+    runs-on:        macos-latest
+
+    steps:
+      - name:                    Checkout code
+        uses:                    actions/checkout@v2
+
+      - name: Install zbar
+        run: |
+          brew update
+          brew install zbar
+          brew upgrade
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+
+      - name: Compile and prepare dmg
+        run: |
+          mkdir build
+          cd ./build
+          mkdir installs
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./installs ../
+          make -j 2
+          make install
+          make deploy
+          make dmg
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: QRab ${{ github.ref }}
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./installs/QRab*.dmg
+          asset_name: QRab_${{ github.ref }}.dmg
+          #asset_content_type: application/zip
