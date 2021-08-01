@@ -51,6 +51,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /Users/runner/work/QRab/QRab/build/installs/QRab-0.4-b1.dmg
-          asset_name: QRab-0.4-b1.dmg
+          asset_path: /Users/runner/work/QRab/QRab/build/installs/QRab*.dmg
+          asset_name: QRab.dmg
           asset_content_type: application/x-apple-diskimage
