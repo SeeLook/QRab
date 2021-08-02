@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 import QtQuick 2.7
-import QtQuick.Layouts 1.3
 
 
 Item {
@@ -48,7 +47,7 @@ Item {
 //     anchors.horizontalCenter: parent.horizontalCenter
 //   }
 
-  ColumnLayout {
+  Column {
     width: navItem.width
 
     Image {

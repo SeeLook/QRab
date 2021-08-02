@@ -18,7 +18,6 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
 
 import QRab.settings 1.0
 
@@ -30,20 +29,19 @@ Page {
 
   signal exit(bool accepted)
 
-  RowLayout {
-    anchors { fill: parent; margins: defaultSpacing }
-    ColumnLayout {
-      Layout.fillHeight: true
-      anchors {left: parent.left; top: parent.top; bottom: parent.bottom }
+  Row {
+    anchors { margins: defaultSpacing }
+    Column {
+      width: settingsPage.width - buttCol.width
       Flickable {
-        anchors.fill: parent
+        width: parent.width; height: settingsPage.height
         flickableDirection: Flickable.VerticalFlick
         clip: true
-        height: leftLay.height
+        contentHeight: leftCol.height; contentWidth: width
 
-        ColumnLayout {
-          id: leftLay
-          anchors { fill: parent }
+        Column {
+          id: leftCol
+          width: parent.width
 
           CheckBox {
             id: copyCheckBox
@@ -59,9 +57,9 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
           }
 
-          RowLayout {
+          Row {
             anchors.horizontalCenter: parent.horizontalCenter
-            Text { text: qsTr("Grab delay") }
+            Text { text: qsTr("Grab delay"); anchors.verticalCenter: parent.verticalCenter }
             SpinBox {
               id: delaySpinBox
               value: GLOB.grabDelay
@@ -70,25 +68,22 @@ Page {
               stepSize: 100
             }
           }
-            Label {
-              text: qsTr("Replace QR text")
-              anchors.horizontalCenter: parent.horizontalCenter
-            }
-            ReplaceList {
-              id: replaceList
-              replaceTexts: QRabSettings.replaceList
-//               interactive: false
-              anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom; left: parent.left; }
-              Layout.fillWidth: true
-              Layout.fillHeight: true
-            }
+          Label {
+            text: qsTr("Replace QR text")
+            anchors.horizontalCenter: parent.horizontalCenter
+          }
+          ReplaceList {
+            id: replaceList
+            width: parent.width; height: contentHeight
+            replaceTexts: QRabSettings.replaceList
+          }
         }
       }
     }
 
-    ColumnLayout {
-      anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
-      Item { Layout.fillHeight: true }
+    Column {
+      id: buttCol
+      anchors { bottom: parent.bottom }
       spacing: font.pixelSize
       Button {
         text: qsTranslate("Qt", "OK") // QPlatformTheme
