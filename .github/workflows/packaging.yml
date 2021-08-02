@@ -20,7 +20,7 @@ jobs:
           CNT=$(git log --oneline | wc -l)
           echo "QRAB_COM_CNT=$CNT" >> $GITHUB_ENV
           echo "version is ${{ env.QRAB_VERSION }}"
-          echo "commits number is ${{ QRAB_COM_CNT }}"
+          echo "commits number is ${{ env.QRAB_COM_CNT }}"
 
       - name: Install zbar
         run: |
