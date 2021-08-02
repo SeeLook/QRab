@@ -7,13 +7,13 @@ on:
 jobs:
   macos_dmg:
     name:           Build MacOs dmg image
-    runs-on:        macos-latest
+    runs-on:        macos-10.14
 
     steps:
-      - name: Select Xcode version for Mac
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '11.7'
+      #- name: Select Xcode version for Mac
+        #uses: maxim-lobanov/setup-xcode@v1
+        #with:
+          #xcode-version: '11.7'
 
       - name: Checkout code
         uses: actions/checkout@v2
