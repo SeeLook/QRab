@@ -28,7 +28,7 @@ ApplicationWindow {
   id: qrabWindow
 
   visible: true
-  title: "QRab"
+  title: "QRab" + (grabPage.conRun ? " - " + qsTr("scanning screen") : "")
 
   property string titleText: "QRab"
 

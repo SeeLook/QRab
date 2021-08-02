@@ -25,11 +25,13 @@
 
 
 class QPixmap;
+class QTimer;
+
 
 /**
  * This is wrapper around zbar library/executable.
  * Takes screenshot, saves it to temp,
- * then calls zbar to decode QR code.
+ * then calls @p libzbar methods to decode QR code.
  */
 class TgrabQR : public QObject
 {
@@ -40,11 +42,20 @@ class TgrabQR : public QObject
   Q_PROPERTY(QString clipText READ clipText)
   Q_PROPERTY(QString replacedText READ replacedText)
   Q_PROPERTY(QStringList replaceList READ replaceList WRITE setReplaceList)
+  Q_PROPERTY(qreal conRun READ conRun NOTIFY conRunChanged)
 
 public:
   explicit TgrabQR(QObject* parent = nullptr);
 
+      /**
+       * Invokes single scan or starts continuous scanning
+       */
   Q_INVOKABLE void grab();
+
+      /**
+       * Stops continuous scanning
+       */
+  Q_INVOKABLE void stop();
 
   QString qrText() { return m_qrText; }
   void setQRtext(const QString& str) { m_qrText = str; }
@@ -55,15 +66,22 @@ public:
   QStringList replaceList() { return m_replaceList; }
   void setReplaceList(QStringList& rl);
 
+      /**
+       * @p TRUE when continuous scanning is on
+       */
+  bool conRun() const;
+
   Q_INVOKABLE void setCells(const QList<int>& l);
 
   Q_INVOKABLE QString version() const;
 
 signals:
   void grabDone();
+  void conRunChanged();
 
 protected:
   void delayedShot();
+  void continuousScan();
 
 private:
   QString callZBAR(const QPixmap& pix);
@@ -74,7 +92,10 @@ private:
   QString           m_replacedText; /** Text from QR replaced with strings from @p m_replaceList */
   QString           m_clipText; /**< Text copied to clipboard, or empty  */
   QStringList       m_replaceList;
+  QStringList       m_conRowsList;
   QMap<int, int>    m_cellsMap;
+  QTimer           *m_conTimer;
+  int               m_conCounter = 0;
 };
 
 #endif // TGRABQR_H

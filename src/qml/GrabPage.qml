@@ -30,6 +30,7 @@ Page {
 
   property real defaultSpacing: 10
   property string version: qr.version()
+  property alias conRun: qr.conRun
 
   signal settingsOn()
   signal aboutOn()
@@ -101,19 +102,23 @@ Page {
         Connections {
           target: qr
           onGrabDone: {
-            var str = qr.qrText
-            if (str == "") {
-                qrText.textFormat = Text.RichText
-                qrText.text = "<b><center style=\"color: red; font-size: xx-large\">" + qsTr("No QR code found!") + "</center></b>"
-                adjustButt.visible = false
-                qrRadio.visible = false
-                clipRadio.visible = false
+            if (qr.conRun) {
+                qrText.text = qr.qrText
             } else {
-                qrText.textFormat = Text.PlainText
-                qrText.text = str
-                adjustButt.visible = true
-                qrRadio.visible = true
-                clipRadio.visible = true
+                var str = qr.qrText
+                if (str == "") {
+                    qrText.textFormat = Text.RichText
+                    qrText.text = "<b><center style=\"color: red; font-size: xx-large\">" + qsTr("No QR code found!") + "</center></b>"
+                    adjustButt.visible = false
+                    qrRadio.visible = false
+                    clipRadio.visible = false
+                } else {
+                    qrText.textFormat = Text.PlainText
+                    qrText.text = str
+                    adjustButt.visible = true
+                    qrRadio.visible = true
+                    clipRadio.visible = true
+                }
             }
           }
         }
@@ -155,9 +160,12 @@ Page {
       Item { Layout.fillWidth: true }
       Button {
         id: qrabButt
-        text: qsTr("GRAB!")
+        text: qr.conRun ? qsTranslate("Qt", "Stop") : qsTr("GRAB!")
         onClicked: {
-          qr.grab()
+          if (qr.conRun)
+            qr.stop()
+          else
+            qr.grab()
         }
       }
     }

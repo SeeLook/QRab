@@ -45,13 +45,13 @@ TgrabQR::TgrabQR(QObject* parent) :
   QObject(parent)
 {
   qDebug() << "QRab version" << version();
+  m_conTimer = new QTimer(this);
+  connect(m_conTimer, &QTimer::timeout, this, &TgrabQR::continuousScan);
 }
 
 
 void TgrabQR::grab() {
   auto screen = QGuiApplication::primaryScreen();
-//   if (const QWindow *window = QGuiApplication::windowHandle())
-//     screen = window->screen();
   if (!screen) {
     qDebug() << "No screen to take screenshot";
     m_qrText.clear();
@@ -59,15 +59,34 @@ void TgrabQR::grab() {
     return;
   }
 
-  if (qApp->allWindows().size())
-    qApp->allWindows().first()->hide();
+  if (GLOB->conEnable()) {
+      m_conTimer->setInterval(GLOB->conInterval());
+      m_conTimer->start();
+      emit conRunChanged();
+  } else {
+      if (qApp->allWindows().size())
+        qApp->allWindows().first()->hide();
 
-  QTimer::singleShot(GLOB->grabDelay(), [=]{ delayedShot(); });
+      QTimer::singleShot(GLOB->grabDelay(), [=]{ delayedShot(); });
+  }
+}
+
+
+void TgrabQR::stop() {
+  if (GLOB->conEnable()) {
+    m_conTimer->stop();
+    emit conRunChanged();
+  }
 }
 
 
 void TgrabQR::setReplaceList(QStringList& rl) {
   m_replaceList = rl;
+}
+
+
+bool TgrabQR::conRun() const {
+  return m_conTimer->isActive();
 }
 
 
@@ -102,15 +121,42 @@ void TgrabQR::delayedShot() {
   m_replacedText.clear();
   m_clipText.clear();
   if (!m_qrText.isEmpty()) {
-      if (GLOB->copyToClipB()) {
-        m_clipText = m_qrText;
-        parseText(m_clipText);
-        qApp->clipboard()->setText(m_clipText, QClipboard::Clipboard);
-      }
+    if (GLOB->copyToClipB()) {
+      m_clipText = m_qrText;
+      parseText(m_clipText);
+      qApp->clipboard()->setText(m_clipText, QClipboard::Clipboard);
+    }
   }
 
-  if (qApp->allWindows().size())
-    qApp->allWindows().first()->show();
+  if (!GLOB->conEnable()) {
+    if (qApp->allWindows().size())
+      qApp->allWindows().first()->show();
+  }
+
+  emit grabDone();
+}
+
+
+void TgrabQR::continuousScan() {
+  auto screen = QGuiApplication::primaryScreen();
+
+  auto qrT = callZBAR(screen->grabWindow(0));
+  if (qrT.isEmpty())
+    qrT = tr("none");
+
+  if (qrT != m_clipText) {
+      m_conCounter = 1;
+      if (m_conRowsList.size() >= GLOB->conRows())
+        m_conRowsList.removeFirst();
+  } else {
+      m_conCounter++;
+      if (!m_conRowsList.isEmpty())
+        m_conRowsList.removeLast();
+  }
+  m_conRowsList << qrT + QString(" (%1)<br>").arg(m_conCounter);
+  m_qrText = m_conRowsList.join(QString());
+  // Let's use m_clipText to store Qr text - no clipboard call here
+  m_clipText = qrT;
 
   emit grabDone();
 }
@@ -121,7 +167,7 @@ void TgrabQR::delayedShot() {
 //#################################################################################################
 QString TgrabQR::callZBAR(const QPixmap& pix) {
   if (!pix.isNull()) {
-    auto qImage = pix.toImage();//.convertToFormat(QImage::Format_RGB32);
+    auto qImage = pix.toImage();
     unsigned bpl = qImage.bytesPerLine();
     unsigned width = bpl / 4;
     unsigned height = qImage.height();
