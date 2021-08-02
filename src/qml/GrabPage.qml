@@ -57,7 +57,10 @@ Page {
       Button {
         id: settingsButt
         text: qsTr("Settings")
-        onClicked: grabPage.settingsOn()
+        onClicked: {
+          qr.stop()
+          grabPage.settingsOn()
+        }
       }
 
       Item { Layout.fillWidth: true }
@@ -65,7 +68,10 @@ Page {
       Button {
         id: aboutButt
         text: qsTr("About")
-        onClicked: grabPage.aboutOn()
+        onClicked: {
+          qr.stop()
+          grabPage.aboutOn()
+        }
       }
     }
     Flickable {
@@ -131,6 +137,7 @@ Page {
         text: qsTr("Adjust sheet")
         visible: false
         onClicked: {
+          qr.stop()
           var c = Qt.createComponent("qrc:/AdjustDialog.qml")
           var a = c.createObject(grabPage)
           if (a.loadQRtext(qr.replacedText, QRabSettings.cells))

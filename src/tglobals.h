@@ -44,7 +44,7 @@ class Tglobals : public QObject
   Q_PROPERTY(bool conEnable READ conEnable WRITE setConEnable NOTIFY continuousChanged)
   Q_PROPERTY(int conInterval READ conInterval WRITE setConInterval NOTIFY continuousChanged)
   Q_PROPERTY(int conRows READ conRows WRITE setConRows NOTIFY continuousChanged)
-  Q_PROPERTY(qreal conCount READ conCount WRITE setConCount NOTIFY continuousChanged)
+  Q_PROPERTY(bool conCount READ conCount WRITE setConCount NOTIFY continuousChanged)
 
 public:
   Tglobals(QObject* parent = nullptr);
@@ -78,6 +78,8 @@ public:
 
   bool conCount() const { return m_conCountOccur; }
   void setConCount(bool conC);
+
+  Q_INVOKABLE void setContinuous(bool enb, int intv, int rw, bool cnt);
 
 signals:
   void dummySignal();

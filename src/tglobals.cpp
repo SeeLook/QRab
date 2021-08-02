@@ -107,7 +107,6 @@ void Tglobals::setKeepOnTop(bool keepOn) {
 void Tglobals::setConEnable(bool conE) {
   if (conE != m_conEnable) {
     m_conEnable = conE;
-//     emit continuousChanged();
   }
 }
 
@@ -115,7 +114,6 @@ void Tglobals::setConEnable(bool conE) {
 void Tglobals::setConInterval(int conI) {
   if (conI != m_conInterval) {
     m_conInterval = conI;
-    //     emit continuousChanged();
   }
 }
 
@@ -123,7 +121,6 @@ void Tglobals::setConInterval(int conI) {
 void Tglobals::setConRows(int conR) {
   if (conR != m_conRowsToShow) {
     m_conRowsToShow = conR;
-    //     emit continuousChanged();
   }
 }
 
@@ -131,7 +128,16 @@ void Tglobals::setConRows(int conR) {
 void Tglobals::setConCount(bool conC) {
   if (conC != m_conCountOccur) {
     m_conCountOccur = conC;
-    //     emit continuousChanged();
   }
 }
 
+
+void Tglobals::setContinuous(bool enb, int intv, int rw, bool cnt) {
+  bool emitAfter = enb != m_conEnable || intv != m_conInterval || rw != m_conRowsToShow || cnt != m_conCountOccur;
+  setConEnable(enb);
+  setConInterval(intv);
+  setConRows(rw);
+  setConCount(cnt);
+  if (emitAfter)
+    emit continuousChanged();
+}

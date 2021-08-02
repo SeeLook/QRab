@@ -53,13 +53,16 @@ TgrabQR::TgrabQR(QObject* parent) :
 void TgrabQR::grab() {
   auto screen = QGuiApplication::primaryScreen();
   if (!screen) {
-    qDebug() << "No screen to take screenshot";
+    qDebug() << "No screen to grab QR";
     m_qrText.clear();
     m_clipText.clear();
     return;
   }
 
   if (GLOB->conEnable()) {
+      m_conRowsList.clear();
+      m_conCounter = 0;
+      m_clipText.clear();
       m_conTimer->setInterval(GLOB->conInterval());
       m_conTimer->start();
       emit conRunChanged();
@@ -153,7 +156,7 @@ void TgrabQR::continuousScan() {
       if (!m_conRowsList.isEmpty())
         m_conRowsList.removeLast();
   }
-  m_conRowsList << qrT + QString(" (%1)<br>").arg(m_conCounter);
+  m_conRowsList << qrT + (GLOB->conCount() ? QString(" (%1)<br>").arg(m_conCounter) : QLatin1String("<br>"));
   m_qrText = m_conRowsList.join(QString());
   // Let's use m_clipText to store Qr text - no clipboard call here
   m_clipText = qrT;

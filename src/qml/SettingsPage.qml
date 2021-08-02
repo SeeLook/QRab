@@ -43,12 +43,87 @@ Page {
           id: leftCol
           width: parent.width
 
+          ButtonGroup { id: oneOrContGr }
+
           CheckBox {
-            id: copyCheckBox
-            checked: GLOB.copyToClipB
-            text: qsTr("Copy QR text to clipboard")
+            id: oneClickChB
+            text: qsTr("Grab QR once after click")
             anchors.horizontalCenter: parent.horizontalCenter
+            ButtonGroup.group: oneOrContGr
           }
+          Item {
+            width: parent.width; height: oneClickChB.checked ? oneClickCol.height : 0
+            Behavior on height { NumberAnimation { duration: 250 }}
+            Column {
+              id: oneClickCol
+              visible: parent.height === height
+              anchors.horizontalCenter: parent.horizontalCenter
+              CheckBox {
+                id: copyCheckBox
+                checked: GLOB.copyToClipB
+                text: qsTr("Copy QR text to clipboard")
+                anchors.horizontalCenter: parent.horizontalCenter
+              }
+              Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                Text { text: qsTr("Grab delay"); anchors.verticalCenter: parent.verticalCenter }
+                SpinBox {
+                  id: delaySpinBox
+                  value: GLOB.grabDelay
+                  from: 0; to: 2000
+                  stepSize: 100
+                }
+              }
+            }
+          }
+
+          Rectangle { width: parent.width * 0.8; height: 1; color: "black"; anchors.horizontalCenter: parent.horizontalCenter }
+
+          CheckBox {
+            id: continChB
+            checked: GLOB.conEnable
+            text: qsTr("Scan screen continuously")
+            anchors.horizontalCenter: parent.horizontalCenter
+            ButtonGroup.group: oneOrContGr
+          }
+          Item {
+            width: parent.width; height: continChB.checked ? contiCol.height : 0
+            Behavior on height { NumberAnimation { duration: 250 }}
+            Column {
+              id: contiCol
+              visible: parent.height === height
+              anchors.horizontalCenter: parent.horizontalCenter
+              Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                Text { text: qsTr("every"); anchors.verticalCenter: parent.verticalCenter }
+                SpinBox {
+                  id: conIntSpin
+                  value: GLOB.conInterval
+                  from: 100; to: 10000
+                  stepSize: 100
+                }
+                Text { text: qsTr("milliseconds"); anchors.verticalCenter: parent.verticalCenter }
+              }
+              Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                Text { text: qsTr("Display"); anchors.verticalCenter: parent.verticalCenter }
+                SpinBox {
+                  id: conRowSpin
+                  value: GLOB.conRows
+                  from: 1; to: 100
+                }
+                Text { text: qsTr("rows of detected texts"); anchors.verticalCenter: parent.verticalCenter }
+              }
+              CheckBox {
+                id: conCountChB
+                checked: GLOB.conCount
+                text: qsTr("Count the same QR texts")
+                anchors.horizontalCenter: parent.horizontalCenter
+              }
+            }
+          }
+
+          Rectangle { width: parent.width * 0.8; height: 1; color: "black"; anchors.horizontalCenter: parent.horizontalCenter }
 
           CheckBox {
             id: keepCheckBox
@@ -57,17 +132,8 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
           }
 
-          Row {
-            anchors.horizontalCenter: parent.horizontalCenter
-            Text { text: qsTr("Grab delay"); anchors.verticalCenter: parent.verticalCenter }
-            SpinBox {
-              id: delaySpinBox
-              value: GLOB.grabDelay
-              from: 0
-              to: 2000
-              stepSize: 100
-            }
-          }
+          Rectangle { width: parent.width * 0.8; height: 1; color: "black"; anchors.horizontalCenter: parent.horizontalCenter }
+
           Label {
             text: qsTr("Replace QR text")
             anchors.horizontalCenter: parent.horizontalCenter
@@ -92,6 +158,7 @@ Page {
           GLOB.copyToClipB = copyCheckBox.checked
           GLOB.grabDelay = delaySpinBox.value
           GLOB.keepOnTop = keepCheckBox.checked
+          GLOB.setContinuous(continChB.checked, conIntSpin.value, conRowSpin.value, conCountChB.checked)
           QRabSettings.replaceList = replaceList.replaceTexts
           settingsPage.exit(true)
         }
