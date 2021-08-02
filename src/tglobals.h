@@ -41,6 +41,10 @@ class Tglobals : public QObject
   Q_PROPERTY(int grabDelay READ grabDelay WRITE setGrabDelay NOTIFY grabDelayChanged)
   Q_PROPERTY(bool copyToClipB READ copyToClipB WRITE setCopyToClipB NOTIFY copyToClipBChanged)
   Q_PROPERTY(bool keepOnTop READ keepOnTop WRITE setKeepOnTop NOTIFY keepOnTopChanged)
+  Q_PROPERTY(bool conEnable READ conEnable WRITE setConEnable NOTIFY continuousChanged)
+  Q_PROPERTY(int conInterval READ conInterval WRITE setConInterval NOTIFY continuousChanged)
+  Q_PROPERTY(int conRows READ conRows WRITE setConRows NOTIFY continuousChanged)
+  Q_PROPERTY(qreal conCount READ conCount WRITE setConCount NOTIFY continuousChanged)
 
 public:
   Tglobals(QObject* parent = nullptr);
@@ -60,11 +64,27 @@ public:
   bool keepOnTop() const { return m_keepOnTop; }
   void setKeepOnTop(bool keepOn);
 
+      /**
+       * Continuous scanning - @p TRUE if enabled
+       */
+  bool conEnable() const { return m_conEnable; }
+  void setConEnable(bool conE);
+
+  int conInterval() const { return m_conInterval; }
+  void setConInterval(int conI);
+
+  int conRows() const { return m_conRowsToShow; }
+  void setConRows(int conR);
+
+  bool conCount() const { return m_conCountOccur; }
+  void setConCount(bool conC);
+
 signals:
   void dummySignal();
   void grabDelayChanged();
   void copyToClipBChanged();
   void keepOnTopChanged();
+  void continuousChanged();
 
 private:
   static Tglobals            *m_instance;
@@ -76,6 +96,10 @@ private:
   bool                        m_copyToClipB;
   bool                        m_keepOnTop;
 
+  bool                        m_conEnable;
+  int                         m_conInterval;
+  int                         m_conRowsToShow;
+  bool                        m_conCountOccur;
 };
 
 #endif // TGLOBALS_H

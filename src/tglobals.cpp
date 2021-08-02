@@ -54,6 +54,10 @@ Tglobals::Tglobals(QObject* parent) :
     m_grabDelay = m_config->value(QStringLiteral("grabDelay"), 100).toInt();
     m_copyToClipB = m_config->value(QStringLiteral("copyToClipboard"), true).toBool();
     m_keepOnTop = m_config->value(QStringLiteral("keepOnTop"), true).toBool();
+    m_conEnable = m_config->value(QStringLiteral("cont_Scan"), true).toBool();
+    m_conInterval = qBound(100, m_config->value(QStringLiteral("cont_Interval"), 500).toInt(), 10000);
+    m_conRowsToShow = qBound(2, m_config->value(QStringLiteral("cont_Rows"), 2).toInt(), 10);
+    m_conCountOccur = m_config->value(QStringLiteral("cont_CountOccu"), true).toBool();
   m_config->endGroup();
 }
 
@@ -66,6 +70,10 @@ Tglobals::~Tglobals()
     m_config->setValue(QStringLiteral("grabDelay"), m_grabDelay);
     m_config->setValue(QStringLiteral("copyToClipboard"), m_copyToClipB);
     m_config->setValue(QStringLiteral("keepOnTop"), m_keepOnTop);
+    m_config->setValue(QStringLiteral("cont_Scan"), m_conEnable);
+    m_config->setValue(QStringLiteral("cont_Interval"), m_conInterval);
+    m_config->setValue(QStringLiteral("cont_Rows"), m_conRowsToShow);
+    m_config->setValue(QStringLiteral("cont_CountOccu"), m_conCountOccur);
   m_config->endGroup();
 
   m_instance = nullptr;
@@ -94,3 +102,36 @@ void Tglobals::setKeepOnTop(bool keepOn) {
     emit keepOnTopChanged();
   }
 }
+
+
+void Tglobals::setConEnable(bool conE) {
+  if (conE != m_conEnable) {
+    m_conEnable = conE;
+//     emit continuousChanged();
+  }
+}
+
+
+void Tglobals::setConInterval(int conI) {
+  if (conI != m_conInterval) {
+    m_conInterval = conI;
+    //     emit continuousChanged();
+  }
+}
+
+
+void Tglobals::setConRows(int conR) {
+  if (conR != m_conRowsToShow) {
+    m_conRowsToShow = conR;
+    //     emit continuousChanged();
+  }
+}
+
+
+void Tglobals::setConCount(bool conC) {
+  if (conC != m_conCountOccur) {
+    m_conCountOccur = conC;
+    //     emit continuousChanged();
+  }
+}
+
