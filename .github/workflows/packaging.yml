@@ -10,8 +10,13 @@ jobs:
     runs-on:        macos-latest
 
     steps:
-      - name:                    Checkout code
-        uses:                    actions/checkout@v2
+      - name: Select Xcode version for Mac
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '11.7'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -19,7 +24,7 @@ jobs:
         run: |
           VER=$(cat src/qrabconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
           echo "QRAB_VERSION=$VER" >> $GITHUB_ENV
-          CNT=$(git log --oneline | wc -l)
+          CNT=$(git rev-list HEAD --count)
           echo "QRAB_COM_CNT=$CNT" >> $GITHUB_ENV
 
       - name: Install zbar
@@ -45,7 +50,7 @@ jobs:
           make dmg
           cp installs/QRab*.dmg ../
           cd ..
-          mv QRab*.dmg QRab-${{ env.QRAB_VERSION }}-b${{ github.run_number }}.dmg
+          mv QRab*.dmg QRab-${{ env.QRAB_VERSION }}-b${{ env.QRAB_COM_CNT }}.dmg
 
       - name: Create Release
         id: create_release
@@ -53,8 +58,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: QRab-${{ env.QRAB_VERSION }}-b${{ github.run_number }}
-          release_name: QRab-${{ env.QRAB_VERSION }}-b${{ github.run_number }}
+          tag_name: QRab-${{ env.QRAB_VERSION }}-b${{ env.QRAB_COM_CNT }}
+          release_name: QRab-${{ env.QRAB_VERSION }}-b${{ env.QRAB_COM_CNT }}
           draft: false
           prerelease: true
 
@@ -65,6 +70,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /Users/runner/work/QRab/QRab/QRab-${{ env.QRAB_VERSION }}-b${{ github.run_number }}.dmg
-          asset_name: QRab-${{ env.QRAB_VERSION }}-b${{ github.run_number }}.dmg
+          asset_path: /Users/runner/work/QRab/QRab/QRab-${{ env.QRAB_VERSION }}-b${{ env.QRAB_COM_CNT }}.dmg
+          asset_name: QRab-${{ env.QRAB_VERSION }}-b${{ env.QRAB_COM_CNT }}.dmg
           asset_content_type: application/x-apple-diskimage
