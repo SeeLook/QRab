@@ -28,6 +28,7 @@ import QRab.settings 1.0
 
 ApplicationWindow {
   id: qrabWindow
+
   visible: true
   title: "QRab"
 
@@ -49,7 +50,7 @@ ApplicationWindow {
       onExit: {
         if (accepted) {
           grabPage.acceptSettings()
-          qrabWindow.flags = QRabSettings.keepOnTop ? qrabWindow.flags | Qt.WindowStaysOnTopHint : qrabWindow.flags & ~Qt.WindowStaysOnTopHint
+          qrabWindow.flags = GLOB.keepOnTop ? qrabWindow.flags | Qt.WindowStaysOnTopHint : qrabWindow.flags & ~Qt.WindowStaysOnTopHint
         }
         swipeView.currentIndex = 1
       }
@@ -68,7 +69,7 @@ ApplicationWindow {
   }
 
   Component.onCompleted: {
-    qrabWindow.flags = QRabSettings.keepOnTop ? qrabWindow.flags | Qt.WindowStaysOnTopHint : qrabWindow.flags
+    qrabWindow.flags = GLOB.keepOnTop ? qrabWindow.flags | Qt.WindowStaysOnTopHint : qrabWindow.flags
   }
 
   onClosing: {

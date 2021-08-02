@@ -54,7 +54,7 @@ Page {
 
           CheckBox {
             id: keepCheckBox
-            checked: QRabSettings.keepOnTop
+            checked: GLOB.keepOnTop
             text: qsTr("Keep QRab window on top")
             anchors.horizontalCenter: parent.horizontalCenter
           }
@@ -96,7 +96,7 @@ Page {
           replaceList.save()
           GLOB.copyToClipB = copyCheckBox.checked
           GLOB.grabDelay = delaySpinBox.value
-          QRabSettings.keepOnTop = keepCheckBox.checked
+          GLOB.keepOnTop = keepCheckBox.checked
           QRabSettings.replaceList = replaceList.replaceTexts
           settingsPage.exit(true)
         }

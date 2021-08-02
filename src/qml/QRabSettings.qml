@@ -28,7 +28,6 @@ import Qt.labs.settings 1.0
  * Magic separator for it is defined in @p splitString "&|$"
  */
 Item {
-  property bool keepOnTop
   property var replaceList
   property string concatList
   property var cells
@@ -44,19 +43,16 @@ Item {
   Settings {
     id: settings
     category: "QRab"
-    property bool keepOnTop: true
     property var concatList: "\n" + splitString + "\t"
     property string concatCells: ""
   }
 
   Component.onCompleted: {
-    keepOnTop = settings.keepOnTop
     concatList = settings.concatList
     concatCells = settings.concatCells
   }
 
   Component.onDestruction: {
-    settings.keepOnTop = keepOnTop
     if (replaceList)
       settings.concatList = replaceList.join(splitString)
     if (cells)

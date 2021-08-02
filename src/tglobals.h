@@ -40,6 +40,7 @@ class Tglobals : public QObject
   Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY dummySignal)
   Q_PROPERTY(int grabDelay READ grabDelay WRITE setGrabDelay NOTIFY grabDelayChanged)
   Q_PROPERTY(bool copyToClipB READ copyToClipB WRITE setCopyToClipB NOTIFY copyToClipBChanged)
+  Q_PROPERTY(bool keepOnTop READ keepOnTop WRITE setKeepOnTop NOTIFY keepOnTopChanged)
 
 public:
   Tglobals(QObject* parent = nullptr);
@@ -56,10 +57,14 @@ public:
   bool copyToClipB() const { return m_copyToClipB; }
   void setCopyToClipB(bool ctb);
 
+  bool keepOnTop() const { return m_keepOnTop; }
+  void setKeepOnTop(bool keepOn);
+
 signals:
   void dummySignal();
   void grabDelayChanged();
   void copyToClipBChanged();
+  void keepOnTopChanged();
 
 private:
   static Tglobals            *m_instance;
@@ -69,6 +74,7 @@ private:
   QRect                       m_geometry;
   int                         m_grabDelay;
   bool                        m_copyToClipB;
+  bool                        m_keepOnTop;
 
 };
 
