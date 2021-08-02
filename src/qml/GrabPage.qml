@@ -44,7 +44,6 @@ Page {
   }
 
   function acceptSettings() {
-    qr.copyToClipboard = QRabSettings.copyToClipboard
     if (QRabSettings.replaceList)
       qr.replaceList = QRabSettings.replaceList
   }

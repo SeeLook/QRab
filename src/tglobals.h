@@ -39,6 +39,7 @@ class Tglobals : public QObject
 
   Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY dummySignal)
   Q_PROPERTY(int grabDelay READ grabDelay WRITE setGrabDelay NOTIFY grabDelayChanged)
+  Q_PROPERTY(bool copyToClipB READ copyToClipB WRITE setCopyToClipB NOTIFY copyToClipBChanged)
 
 public:
   Tglobals(QObject* parent = nullptr);
@@ -52,9 +53,13 @@ public:
   int grabDelay() const { return m_grabDelay; }
   void setGrabDelay(int gd);
 
+  bool copyToClipB() const { return m_copyToClipB; }
+  void setCopyToClipB(bool ctb);
+
 signals:
   void dummySignal();
   void grabDelayChanged();
+  void copyToClipBChanged();
 
 private:
   static Tglobals            *m_instance;
@@ -63,6 +68,7 @@ private:
 
   QRect                       m_geometry;
   int                         m_grabDelay;
+  bool                        m_copyToClipB;
 
 };
 

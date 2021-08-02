@@ -52,6 +52,7 @@ Tglobals::Tglobals(QObject* parent) :
 
   m_config->beginGroup(QLatin1String("QRab"));
     m_grabDelay = m_config->value(QStringLiteral("grabDelay"), 100).toInt();
+    m_copyToClipB = m_config->value(QStringLiteral("copyToClipboard"), true).toBool();
   m_config->endGroup();
 }
 
@@ -62,6 +63,7 @@ Tglobals::~Tglobals()
 
   m_config->beginGroup(QLatin1String("QRab"));
     m_config->setValue(QStringLiteral("grabDelay"), m_grabDelay);
+    m_config->setValue(QStringLiteral("copyToClipboard"), m_copyToClipB);
   m_config->endGroup();
 
   m_instance = nullptr;
@@ -72,5 +74,13 @@ void Tglobals::setGrabDelay(int gd) {
   if (gd != m_grabDelay) {
     m_grabDelay = gd;
     emit grabDelayChanged();
+  }
+}
+
+
+void Tglobals::setCopyToClipB(bool ctb) {
+  if (ctb != m_copyToClipB) {
+    m_copyToClipB = ctb;
+    emit copyToClipBChanged();
   }
 }

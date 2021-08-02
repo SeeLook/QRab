@@ -36,7 +36,6 @@ class TgrabQR : public QObject
 
   Q_OBJECT
 
-  Q_PROPERTY(bool copyToClipboard READ copyToClipboard WRITE setCopyToClipboard)
   Q_PROPERTY(QString qrText READ qrText WRITE setQRtext NOTIFY grabDone)
   Q_PROPERTY(QString clipText READ clipText)
   Q_PROPERTY(QString replacedText READ replacedText)
@@ -46,9 +45,6 @@ public:
   explicit TgrabQR(QObject* parent = nullptr);
 
   Q_INVOKABLE void grab();
-
-  bool copyToClipboard() { return m_copyToClipB; }
-  void setCopyToClipboard(bool copyTo) { m_copyToClipB = copyTo; }
 
   QString qrText() { return m_qrText; }
   void setQRtext(const QString& str) { m_qrText = str; }
@@ -74,7 +70,6 @@ private:
   void parseText(QString& str);
 
 private:
-  bool              m_copyToClipB;
   QString           m_qrText; /**< Currently detected text or empty */
   QString           m_replacedText; /** Text from QR replaced with strings from @p m_replaceList */
   QString           m_clipText; /**< Text copied to clipboard, or empty  */

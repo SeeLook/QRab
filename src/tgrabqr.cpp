@@ -42,8 +42,7 @@ QString toCell(int nr) {
 
 
 TgrabQR::TgrabQR(QObject* parent) :
-  QObject(parent),
-  m_copyToClipB(true)
+  QObject(parent)
 {
   qDebug() << "QRab version" << version();
 }
@@ -103,7 +102,7 @@ void TgrabQR::delayedShot() {
   m_replacedText.clear();
   m_clipText.clear();
   if (!m_qrText.isEmpty()) {
-      if (m_copyToClipB) {
+      if (GLOB->copyToClipB()) {
         m_clipText = m_qrText;
         parseText(m_clipText);
         qApp->clipboard()->setText(m_clipText, QClipboard::Clipboard);

@@ -47,7 +47,7 @@ Page {
 
           CheckBox {
             id: copyCheckBox
-            checked: QRabSettings.copyToClipboard
+            checked: GLOB.copyToClipB
             text: qsTr("Copy QR text to clipboard")
             anchors.horizontalCenter: parent.horizontalCenter
           }
@@ -94,7 +94,7 @@ Page {
         text: qsTranslate("Qt", "OK") // QPlatformTheme
         onClicked: {
           replaceList.save()
-          QRabSettings.copyToClipboard = copyCheckBox.checked
+          GLOB.copyToClipB = copyCheckBox.checked
           GLOB.grabDelay = delaySpinBox.value
           QRabSettings.keepOnTop = keepCheckBox.checked
           QRabSettings.replaceList = replaceList.replaceTexts
