@@ -1,1 +1,1 @@
-#define QRAB_VERSION "0.5-alpha1"
+#define QRAB_VERSION "0.5-beta1"
