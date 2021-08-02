@@ -19,8 +19,6 @@ jobs:
           echo "QRAB_VERSION=$VER" >> $GITHUB_ENV
           CNT=$(git log --oneline | wc -l)
           echo "QRAB_COM_CNT=$CNT" >> $GITHUB_ENV
-          echo "version is ${{ env.QRAB_VERSION }}"
-          echo "commits number is ${{ env.QRAB_COM_CNT }}"
 
       - name: Install zbar
         run: |
@@ -33,6 +31,8 @@ jobs:
 
       - name: Compile and prepare dmg
         run: |
+          echo "version is ${{ env.QRAB_VERSION }}"
+          echo "commits number is ${{ env.QRAB_COM_CNT }}"
           mkdir build
           cd ./build
           mkdir installs
