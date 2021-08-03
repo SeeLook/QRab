@@ -27,21 +27,7 @@
 #include <QtGui/QIcon>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
-#include <QtCore/QStandardPaths>
 #include <QtCore/QLoggingCategory>
-
-static QString logFile;
-
-
-void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
-  Q_UNUSED(context)
-  Q_UNUSED(type)
-
-  QFile outFile(logFile);
-  outFile.open(QIODevice::WriteOnly | QIODevice::Append);
-  QTextStream ts(&outFile);
-  ts << msg << "\n";
-}
 
 
 int main(int argc, char *argv[])
@@ -50,11 +36,6 @@ int main(int argc, char *argv[])
   // TODO when Qt version requirements will rise to 5.15 or above, change syntax and remove that
   QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.connections=false"));
 
-  logFile = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).first() + QLatin1String("/qrab-log.txt");
-  if (QFile::exists(logFile))
-    QFile::remove(logFile);
-//   qInstallMessageHandler(myMessageOutput);
-  qDebug() << "==== QRab LOG =======\n" << QDateTime::currentDateTime().toString();
 
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication a(argc, argv);
