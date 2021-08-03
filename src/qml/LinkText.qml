@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-import QtQuick 2.7
+import QtQuick 2.10
 
 
 Text {

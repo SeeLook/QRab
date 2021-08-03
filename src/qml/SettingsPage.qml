@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick 2.10
+import QtQuick.Controls 2.3
 
 import QRab.settings 1.0
 
