@@ -32,12 +32,13 @@ Page {
   Row {
     anchors { margins: defaultSpacing }
     Column {
-      width: settingsPage.width - buttCol.width
+      width: settingsPage.width - buttCol.width - defaultSpacing
+
       Flickable {
         width: parent.width; height: settingsPage.height
         flickableDirection: Flickable.VerticalFlick
         clip: true
-        contentHeight: leftCol.height; contentWidth: width
+        contentHeight: leftCol.height + 2 * defaultSpacing; contentWidth: width
 
         Column {
           id: leftCol
@@ -45,14 +46,15 @@ Page {
 
           ButtonGroup { id: oneOrContGr }
 
-          CheckBox {
-            id: oneClickChB
+          RadioButton {
+            id: onceClickRadio
+            checked: !GLOB.conEnable
+            x: defaultSpacing * 2
             text: qsTr("Grab QR once after click")
-            anchors.horizontalCenter: parent.horizontalCenter
             ButtonGroup.group: oneOrContGr
           }
           Item {
-            width: parent.width; height: oneClickChB.checked ? oneClickCol.height : 0
+            width: parent.width; height: onceClickRadio.checked ? oneClickCol.height : 0
             Behavior on height { NumberAnimation { duration: 250 }}
             Column {
               id: oneClickCol
@@ -79,15 +81,15 @@ Page {
 
           Rectangle { width: parent.width * 0.8; height: 1; color: "black"; anchors.horizontalCenter: parent.horizontalCenter }
 
-          CheckBox {
-            id: continChB
+          RadioButton {
+            id: continuousRadio
             checked: GLOB.conEnable
+            x: defaultSpacing * 2
             text: qsTr("Scan screen continuously")
-            anchors.horizontalCenter: parent.horizontalCenter
             ButtonGroup.group: oneOrContGr
           }
           Item {
-            width: parent.width; height: continChB.checked ? contiCol.height : 0
+            width: parent.width; height: continuousRadio.checked ? contiCol.height : 0
             Behavior on height { NumberAnimation { duration: 250 }}
             Column {
               id: contiCol
@@ -149,7 +151,7 @@ Page {
 
     Column {
       id: buttCol
-      anchors { bottom: parent.bottom }
+      anchors { bottom: parent.bottom; bottomMargin: defaultSpacing }
       spacing: font.pixelSize
       Button {
         text: qsTranslate("Qt", "OK") // QPlatformTheme
@@ -158,7 +160,7 @@ Page {
           GLOB.copyToClipB = copyCheckBox.checked
           GLOB.grabDelay = delaySpinBox.value
           GLOB.keepOnTop = keepCheckBox.checked
-          GLOB.setContinuous(continChB.checked, conIntSpin.value, conRowSpin.value, conCountChB.checked)
+          GLOB.setContinuous(continuousRadio.checked, conIntSpin.value, conRowSpin.value, conCountChB.checked)
           QRabSettings.replaceList = replaceList.replaceTexts
           settingsPage.exit(true)
         }
