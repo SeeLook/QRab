@@ -18,80 +18,97 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
 
 
 Page {
   id: aboutPage
 
-  property real defaultSpacing: 10
+  property real defaultSpacing: font.pixelSize
 
   signal exit()
 
-  ColumnLayout {
-    anchors.fill: parent
-    anchors.margins: defaultSpacing
-
-    RowLayout {
+  Row {
+    Rectangle {
+      width: defaultSpacing * 6; height: aboutPage.height
+      color: "white"
       Flickable {
         id: pageSwitch
-        Layout.fillHeight: true
-        width: font.pixelSize * 6
+        property int currentIndex: 0
+
+        anchors.fill: parent
         clip: true
         flickableDirection: Flickable.VerticalFlick
 
-        Rectangle {
-          anchors.fill: parent
-//           border.width: 1
-        }
+        Column {
+          width: parent.width
+          topPadding: defaultSpacing
 
-        ColumnLayout {
-          anchors.fill: parent
-
-          Item { height: font.pixelSize / 2 }
+          Item { height: defaultSpacing / 2 }
           NavItem {
             id: aboutId
             iconFile: "qrc:/icons/about.png"
             text: qsTranslate("GrabPage", "About")
-            onClicked: stackLay.currentIndex = 0
+            onClicked: {
+              if (pageSwitch.currentIndex !== 0) {
+                stack.replace(comp1)
+                pageSwitch.currentIndex = 0
+              }
+            }
           }
           NavItem {
-            id: licenseId
             iconFile: "qrc:/icons/license.png"
             text: qsTr("License")
-            onClicked: stackLay.currentIndex = 1
+            onClicked: {
+              if (pageSwitch.currentIndex !== 1) {
+                stack.replace(comp2)
+                pageSwitch.currentIndex = 1
+              }
+            }
           }
-          Item { Layout.fillHeight: true }
         }
       }
+    }
 
-      StackLayout {
-        id: stackLay
-        ColumnLayout { // FIRST page with info about QRab
-          Layout.fillWidth: true
-          anchors.horizontalCenter: parent.horizontalCenter
+    StackView {
+      id: stack
+      width: aboutPage.width - defaultSpacing * 6; height: aboutPage.height
+      replaceEnter: Transition { NumberAnimation { property: "y"; from: -height; to: 0 }}
+      replaceExit: Transition { NumberAnimation { property: "y"; from: 0; to: height }}
 
-          RowLayout {
+      initialItem: comp1
+
+      Component {
+        id: comp1
+        Column { // 1st page with info about QRab
+          width: parent ? parent.width : 0
+          spacing: defaultSpacing
+
+          Row {
+            spacing: defaultSpacing
             anchors.horizontalCenter: parent.horizontalCenter
-
             Image {
               source: "qrc:/icons/qrab-image.png"
-              sourceSize.height: font.pixelSize * 7
+              sourceSize.height: defaultSpacing * 7
             }
-            ColumnLayout {
+            Column {
+              anchors.verticalCenter: parent.verticalCenter
               Text {
-                text: "  QRab " + grabPage.version
-                font.bold: true
-                Component.onCompleted: font.pixelSize = font.pixelSize * 2
+                text: "QRab " + grabPage.version
+                anchors.horizontalCenter: parent.horizontalCenter
+                font { bold: true; pixelSize: defaultSpacing * 2 }
               }
-              LinkText { text: " <a href=\"https://qrab.sourceforge.io\">https://qrab.sourceforge.io</a>" }
+              LinkText {
+                text: " <a href=\"https://qrab.sourceforge.io\">https://qrab.sourceforge.io</a>"
+                anchors.horizontalCenter: parent.horizontalCenter
+              }
             }
           }
           Text {
             text: qsTr("Grabs QR code contexts from your screen")
             anchors.horizontalCenter: parent.horizontalCenter
           }
-          RowLayout {
+          Row {
+            spacing: defaultSpacing
             anchors.horizontalCenter: parent.horizontalCenter
             Text { text: qsTr("Author:") }
             LinkText {
@@ -113,19 +130,23 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
           }
-          Item { Layout.fillHeight: true } // a spacer
         }
-        Flickable {
-          Layout.fillHeight: true
+      }
+
+      Component {
+        id: comp2
+        Flickable { // 2nd page
+          width: parent ? parent.width : 0; height: aboutPage.height
           clip: true
           flickableDirection: Flickable.VerticalFlick
-          contentWidth: secondPage.width
-          contentHeight: secondPage.height
-          ColumnLayout { // SECOND page with license text
+          contentWidth: width; contentHeight: secondPage.height
+          Column {
             id: secondPage
+            spacing: defaultSpacing
+            anchors.horizontalCenter: parent.horizontalCenter
             Label {
-              text: qsTr("QRab
-Copyright (C) 2016  Tomasz Bojczuk
+              text: "\n" + qsTr("QRab
+Copyright (C) %1 Tomasz Bojczuk
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
@@ -139,7 +160,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software Foundation,
 Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA"
-                    )
+                    ).arg("2016-2021")
               horizontalAlignment: Text.AlignJustify
             }
             LinkText {
@@ -147,18 +168,17 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA"
               anchors.horizontalCenter: parent.horizontalCenter
               font.bold: true
             }
-            Item { height: aboutPage.font.pixelSize * 3 }
           }
-        }
+        } // 2nd page
       }
+
     }
-    RowLayout {
-      Item { Layout.fillWidth: true }
-      Button {
-        text: qsTranslate("Qt", "OK") // QPlatformTheme context
-        onClicked: aboutPage.exit()
-      }
-    }
+  }
+
+  Button {
+    anchors { bottom: parent.bottom; right: parent.right; margins: defaultSpacing }
+    text: qsTranslate("Qt", "OK") // QPlatformTheme context
+    onClicked: aboutPage.exit()
   }
 }
 
