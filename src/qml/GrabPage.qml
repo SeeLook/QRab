@@ -27,7 +27,7 @@ import QRab.settings 1.0
 Page {
   id: grabPage
 
-  property real defaultSpacing: 10
+  property real defaultSpacing: grabPage.font.pixelSize
   property string version: qr.version()
   property alias conRun: qr.conRun
 
@@ -138,12 +138,11 @@ Page {
         visible: false
         onClicked: {
           qr.stop()
-          var c = Qt.createComponent("qrc:/AdjustDialog.qml")
-          var a = c.createObject(grabPage)
+          var a = Qt.createComponent("qrc:/AdjustDialog.qml").createObject(grabPage)
           if (a.loadQRtext(qr.replacedText, QRabSettings.cells))
               a.adjusted.connect(adjustAccepted)
           else {
-              noTabMess.open()
+              noTabsComp.createObject(grabPage)
               a.destroy()
           }
         }
@@ -195,12 +194,29 @@ Page {
     }
   }
 
-  MessageDialog {
-    id: noTabMess
-    title: "QRab"
-    text: qsTr("There is no tabulators in the text.
+  Component {
+    id: noTabsComp
+    Popup {
+      id: noTabsPopup
+      visible: true
+      width: popCol.width + defaultSpacing; height: popCol.height + defaultSpacing
+      x: (parent.width - width) / 2; y: (parent.height - height) / 2
+      Column {
+        id: popCol
+        spacing: defaultSpacing
+        Text {
+      text: qsTr("There is no tabulators in the text.
 It can not be split into spreadsheet columns.
 To add tabulators, you may use find->replace settings.")
+        }
+        Button {
+          anchors.horizontalCenter: parent.horizontalCenter
+          text: qsTranslate("Qt", "OK")
+          onClicked: noTabsPopup.close()
+        }
+      }
+      onClosed: noTabsPopup.destroy()
+    }
   }
 }
 
