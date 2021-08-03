@@ -85,11 +85,13 @@ endif(ZBAR_LIBRARIES AND ZBAR_INCLUDE_DIRS)
 
 
 if (APPLE) # Mac RPath
+  execute_process(COMMAND git -C ${CMAKE_SOURCE_DIR} rev-list HEAD --count OUTPUT_VARIABLE MAC_BUNDLE_VER OUTPUT_STRIP_TRAILING_WHITESPACE)
+  configure_file(${CMAKE_SOURCE_DIR}/icons/info.plist.in ${CMAKE_BINARY_DIR}/info.plist)
+  message(STATUS "bundle version: ${MAC_BUNDLE_VER}")
   set(CMAKE_MACOSX_RPATH 1)
   set(CMAKE_INSTALL_RPATH "@loader_path/../Frameworks")
   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif (APPLE)
-
 
 
 set(qrab_SRC
@@ -139,7 +141,7 @@ else()
   else()
     install(TARGETS qrab DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents/MacOs")
     install(FILES "${CMAKE_SOURCE_DIR}/icons/qrab.icns" DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents/Resources")
-    install(FILES "${CMAKE_SOURCE_DIR}/icons/info.plist" DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents")
+    install(FILES "${CMAKE_BINARY_DIR}/info.plist" DESTINATION "${CMAKE_INSTALL_PREFIX}/qrab.app/Contents")
     add_custom_target(deploy
       COMMAND echo "deploying..."
       COMMAND echo ${QT_BINARY_DIR}/../../bin
