@@ -18,7 +18,6 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 
 import TgrabQR 1.0
@@ -49,13 +48,15 @@ Page {
       qr.replaceList = QRabSettings.replaceList
   }
 
-  ColumnLayout {
-    anchors.fill: parent
+  Column {
+    width: parent.width
     anchors.margins: defaultSpacing
 
-    RowLayout {
+    Item {
+      width: parent.width; height: settingsButt.height
       Button {
         id: settingsButt
+        x: defaultSpacing
         text: qsTr("Settings")
         onClicked: {
           qr.stop()
@@ -63,10 +64,9 @@ Page {
         }
       }
 
-      Item { Layout.fillWidth: true }
-
       Button {
         id: aboutButt
+        anchors { right: parent.right; rightMargin: defaultSpacing }
         text: qsTr("About")
         onClicked: {
           qr.stop()
@@ -74,13 +74,12 @@ Page {
         }
       }
     }
+
     Flickable {
       id: flickText
-      Layout.fillHeight: true
-      Layout.fillWidth: true
+      width: parent.width; height: grabPage.height - settingsButt.height * 2
       flickableDirection: Flickable.VerticalFlick
-      contentWidth: qrText.paintedWidth
-      contentHeight: qrText.paintedHeight
+      contentWidth: qrText.paintedWidth; contentHeight: qrText.paintedHeight
       clip: true
 
       function ensureVisible(r) {
@@ -99,8 +98,7 @@ Page {
         textFormat: Text.RichText
         text: "<b><center style=\"font-size: xx-large\">" + qsTr("Put any QR code on a screen,<br>then hit GRAB! button") + "</center></b>"
         focus: true
-        width: flickText.width
-        height: flickText.height
+        width: flickText.width; height: flickText.height
         wrapMode: TextArea.Wrap
         readOnly: true
         onCursorRectangleChanged: flickText.ensureVisible(cursorRectangle)
@@ -131,9 +129,11 @@ Page {
       }
     }
 
-    RowLayout {
+    Item {
+      width: parent.width; height: adjustButt.height
       Button {
         id: adjustButt
+        x: defaultSpacing
         text: qsTr("Adjust sheet")
         visible: false
         onClicked: {
@@ -152,21 +152,25 @@ Page {
           QRabSettings.cells = keyList
         }
       }
-      Item { Layout.fillWidth: true }
-      RadioButton {
-        id: qrRadio
-        text: qsTr("QR text")
-        checked: true
-        visible: false
+      Row {
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: defaultSpacing
+        RadioButton {
+          id: qrRadio
+          text: qsTr("QR text")
+          checked: true
+          visible: false
+        }
+        RadioButton {
+          id: clipRadio
+          text: qsTr("Clipboard text")
+          visible: false
+        }
       }
-      RadioButton {
-        id: clipRadio
-        text: qsTr("Clipboard text")
-        visible: false
-      }
-      Item { Layout.fillWidth: true }
+
       Button {
         id: qrabButt
+        anchors { right: parent.right; rightMargin: defaultSpacing }
         text: qr.conRun ? qsTranslate("Qt", "Stop") : qsTr("GRAB!")
         onClicked: {
           if (qr.conRun)
